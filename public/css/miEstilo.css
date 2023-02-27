@@ -1,0 +1,19 @@
+.oculto{
+    display: none!important;
+}
+
+.cancelar{
+    color: rgb(231, 58, 53);
+}
+
+.eliminar{
+    color: rgb(231, 58, 53);
+}
+
+.guardar{
+    color: rgb(86, 224, 139);
+}
+
+.editar{
+    color: rgb(221, 199, 5);
+}

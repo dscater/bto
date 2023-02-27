@@ -1,0 +1,25 @@
+.empleado{
+    position: relative;
+}
+
+.empleado .eliminar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9rem;
+    bottom: -10px;
+    right: -10px;
+    position: absolute;
+    background-color: gray;
+    color: rgb(241, 241, 241);
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    border:solid 2px rgb(71, 71, 71);
+}
+
+.empleado .eliminar:hover{
+    border:solid 2px rgb(160, 2, 2);
+    background-color: rgb(245, 135, 135);
+    color: rgb(163, 4, 4);
+}

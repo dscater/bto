@@ -1,0 +1,81 @@
+#contenedor_dias tr td.dia {
+    cursor: pointer;
+}
+
+#contenedor_dias tr td.bien {
+    background-color: rgb(86, 224, 139);
+}
+
+.bien {
+    background-color: rgb(86, 224, 139);
+}
+
+#contenedor_dias tr td.dia .contenedor_dia {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+#contenedor_dias tr td.dia input {
+    width: calc(100% - 50px);
+}
+
+#contenedor_dias tr td.dia span {
+    color: black;
+    border: solid 1px;
+}
+
+span.cancelar {
+    text-align: center;
+    width: 25px;
+    margin-left: 5px;
+    color: rgb(231, 58, 53) !important;
+}
+
+span.guardar {
+    text-align: center;
+    width: 25px;
+    margin-left: 5px;
+    color: rgb(86, 224, 139) !important;
+}
+
+span.cancelar:hover {
+    background: rgb(231, 58, 53) !important;
+    color: white !important;
+}
+
+span.guardar:hover {
+    background: rgb(86, 224, 139) !important;
+    color: white !important;
+}
+
+#contenedor_dias tr td.dia:hover {
+    background: rgb(239, 225, 252);
+}
+
+input.error {
+    border-color: rgb(212, 2, 2) !important;
+}
+
+.texto_total_horas {
+    display: flex;
+    align-items: center;
+}
+
+#totalHoras {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+#totalHoras:hover {
+    background: rgb(239, 225, 252);
+}
+
+#totalHoras input{
+    width: 80px;
+}
