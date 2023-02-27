@@ -229,12 +229,12 @@ class KPIController extends Controller
 
         $total_ingresos = 0;
         foreach ($proyectos as $value) {
-            $total_ingresos += $value->tarifa;
+            $total_ingresos += (float)$value->tarifa;
         }
 
         return response()->JSON([
             'sw' => true,
-            'total_ingresos' => number_format($total_ingresos, 2)
+            'total_ingresos' => (float)(number_format($total_ingresos, 2, ".", ""))
         ]);
     }
 

@@ -30,7 +30,7 @@ class ActividadController extends Controller
             }
         }
 
-        $html = view('actividads.parcial.actividads_proyecto',compact('proyecto','actividads'))->render();
+        $html = view('actividads.parcial.actividads_proyecto', compact('proyecto', 'actividads'))->render();
 
         return response()->JSON([
             'sw' => true,
@@ -52,11 +52,15 @@ class ActividadController extends Controller
 
         $proyecto->actividads()->save($nueva_actividad);
 
+        $actividad = $nueva_actividad;
+        $actividadTemplate = view("proyectos.parcial.actividadTemplate", compact("actividad"))->render();
+
         if ($request->ajax()) {
             return response()->JSON([
                 'sw' => true,
                 'actividad' => $nueva_actividad,
-                'url' => route('actividads.update',$nueva_actividad->id)
+                'url' => route('actividads.update', $nueva_actividad->id),
+                "actividadTemplate" => $actividadTemplate
             ]);
         }
 
@@ -70,16 +74,76 @@ class ActividadController extends Controller
 
     public function update(Actividad $actividad, Request $request)
     {
-        $actividad->update(array_map('mb_strtoupper', $request->all()));
+        $actividad->update(array_map('mb_strtoupper', $request->except("archivo")));
+
+        if ($request->hasFile("archivo")) {
+            $antiguo = $actividad->archivo;
+            \File::delete(public_path() . "/archivos/" . $antiguo);
+
+            $archivo = $request->file("archivo");
+            $extension = $archivo->getClientOriginalExtension();
+            $nombre_archivo = $actividad->id . time() . "." . $extension;
+            $actividad->archivo = $nombre_archivo;
+            $actividad->save();
+        }
+
+        $actividadTemplate = view("proyectos.parcial.actividadTemplate", compact("actividad"))->render();
 
         if ($request->ajax()) {
             return \response()->JSON([
                 'sw' => true,
-                'nombre' => $actividad->nombre
+                'actividad' => $actividad,
+                'nombre' => $actividad->nombre,
+                "actividadTemplate" => $actividadTemplate,
+                'url' => route('actividads.update2', $actividad->id),
             ]);
         }
 
         return redirect()->route('actividads.index')->with('bien', 'Registro modificado con éxito');
+    }
+
+    public function update2(Actividad $actividad, Request $request)
+    {
+
+        if (!$request["monto"]) {
+            unset($request["monto"]);
+        }
+
+        $actividad->update(array_map('mb_strtoupper', $request->except("archivo")));
+
+        if ($request->hasFile("archivo")) {
+            $antiguo = $actividad->archivo;
+            \File::delete(public_path() . "/archivos/" . $antiguo);
+
+            $archivo = $request->file("archivo");
+            $extension = $archivo->getClientOriginalExtension();
+            $nombre_archivo = $actividad->id . time() . "." . $extension;
+
+            $archivo->move(public_path() . "/archivos/", $nombre_archivo);
+
+            $actividad->archivo = $nombre_archivo;
+            $actividad->save();
+        }
+
+        $actividadTemplate = view("proyectos.parcial.actividadTemplate", compact("actividad"))->render();
+
+        if ($request->ajax()) {
+            return \response()->JSON([
+                'sw' => true,
+                'actividad' => $actividad,
+                'nombre' => $actividad->nombre,
+                "actividadTemplate" => $actividadTemplate,
+                'url' => route('actividads.update', $actividad->id),
+            ]);
+        }
+
+        return redirect()->route('actividads.index')->with('bien', 'Registro modificado con éxito');
+    }
+
+    public function descargar(Actividad $actividad)
+    {
+        return response()->JSON(asset('archivos/' . $actividad->archivo));
+        // return response()->JSON(url() . "/archivos/" . $actividad->archivo, $actividad->archivo);
     }
 
     public function show(Actividad $actividad)

@@ -1,19 +1,56 @@
-.oculto{
-    display: none!important;
+.oculto {
+    display: none !important;
 }
 
-.cancelar{
+.cancelar {
     color: rgb(231, 58, 53);
 }
 
-.eliminar{
+.eliminar {
     color: rgb(231, 58, 53);
 }
 
-.guardar{
+.guardar {
     color: rgb(86, 224, 139);
 }
 
-.editar{
+.editar {
     color: rgb(221, 199, 5);
+}
+
+.opcion {
+    color: #ccc;
+}
+
+.action-circle:hover i.opcion {
+    color: #8c8c8c;
+}
+
+.chat-wrap-inner {}
+
+.task-wrapper #task-list li .task-container {
+    height: 55px;
+}
+
+.task-container {
+    position: relative;
+}
+
+.task-container .contenedor_info_iconos {
+    position: absolute;
+    left: 55px;
+    bottom: 1px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    column-gap: 3px;
+}
+
+.task-container .contenedor_info_iconos .info_actividad {
+    font-size: 0.8em;
+    color: rgb(175, 174, 174);
+}
+
+.task-container .contenedor_info_iconos .info_actividad.descargar {
+    cursor: pointer;
 }

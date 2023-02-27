@@ -97,28 +97,7 @@
                                         <div class="task-list-body">
                                             <ul id="task-list">
                                                 @foreach ($proyecto->actividads as $actividad)
-                                                    @php
-                                                        $completo = '';
-                                                        // PENDIENTE, COMPLETO
-                                                        if ($actividad->estado == 'COMPLETO') {
-                                                            $completo = 'completed';
-                                                        }
-                                                    @endphp
-                                                    <li class="{{ $completo }} task">
-                                                        <div class="task-container">
-                                                            <span class="task-action-btn task-check">
-                                                                <span class="action-circle large complete-btn" title="Completar tarea" data-url="{{route('actividads.update',$actividad->id)}}">
-                                                                    <i class="material-icons">check</i>
-                                                                </span>
-                                                            </span>
-                                                            <span class="task-label" contenteditable="true" data-url="{{route('actividads.update',$actividad->id)}}">{{ $actividad->nombre }}</span>
-                                                            <span class="task-action-btn task-btn-right">
-                                                                <span class="action-circle large delete-btn" title="Eliminar tarea" data-url="{{route('actividads.destroy',$actividad->id)}}">
-                                                                    <i class="material-icons">delete</i>
-                                                                </span>
-                                                            </span>
-                                                        </div>
-                                                    </li>
+                                                    @include("proyectos.parcial.actividadTemplate")
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -224,12 +203,15 @@
 
         @include('proyectos.edit')
         @include('proyectos.delete')
-        
+        @include('proyectos.info_actividad')
     </div>
     <input type="hidden" id="urlStoreActividad" value="{{ route('actividads.store', $proyecto->id) }}">
     <input type="hidden" id="_i_p" value="{{$proyecto->id}}">
     <input type="hidden" id="urlInfoProyecto" value="{{route('proyectos.info_proyecto')}}">
     <input type="hidden" id="urlActividadsProyecto" value="{{route('actividads.actividadesProyecto',$proyecto->id)}}">
+
+
+
 @endsection
 @section('js')
     <script src="{{ asset('js/proyectos/show.js') }}"></script>

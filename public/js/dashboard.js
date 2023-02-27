@@ -5,36 +5,36 @@ let p_horas_semana = $('#p_horas_semana');
 let txt_horas_mes = $('#txt_horas_mes');
 let p_horas_mes = $('#p_horas_mes');
 
-var chart_cantidad_empleados = Morris.Bar({
-    element: 'bar_charts_cantidad_empleados',
-    data: [{
-        y: 'Empleados',
-        a: 0
-    }, ],
-    xkey: 'y',
-    ykeys: ['a'],
-    labels: ['Total Empleados'],
-    lineColors: ['#667eea'],
-    lineWidth: '3px',
-    barColors: ['#667eea'],
-    resize: true,
-    redraw: true
-});
+// var chart_cantidad_empleados = Morris.Bar({
+//     element: 'bar_charts_cantidad_empleados',
+//     data: [{
+//         y: 'Empleados',
+//         a: 0
+//     }, ],
+//     xkey: 'y',
+//     ykeys: ['a'],
+//     labels: ['Total Empleados'],
+//     lineColors: ['#667eea'],
+//     lineWidth: '3px',
+//     barColors: ['#667eea'],
+//     resize: true,
+//     redraw: true
+// });
 
-var chart_horas_trabajo_empleados = Morris.Bar({
-    element: 'chart_horas_trabajo_empleados',
-    data: [{
-        y: 'Tiempo de productividad laboral',
-        a: 0,
-    }, ],
-    xkey: 'y',
-    ykeys: ['a'],
-    labels: ['Total'],
-    barColors: ['#009efb '],
-    lineWidth: '3px',
-    resize: true,
-    redraw: true
-});
+// var chart_horas_trabajo_empleados = Morris.Bar({
+//     element: 'chart_horas_trabajo_empleados',
+//     data: [{
+//         y: 'Tiempo de productividad laboral',
+//         a: 0,
+//     }, ],
+//     xkey: 'y',
+//     ykeys: ['a'],
+//     labels: ['Total'],
+//     barColors: ['#009efb '],
+//     lineWidth: '3px',
+//     resize: true,
+//     redraw: true
+// });
 
 var chart_ingresos_economicos = Morris.Bar({
     element: 'chart_total_ingresos',
@@ -51,35 +51,35 @@ var chart_ingresos_economicos = Morris.Bar({
     redraw: true
 });
 
-var chart_examen_capacitacion = Morris.Bar({
-    element: 'chart_examen_capacitacion',
-    data: [{
-        y: 'Capacitación',
-        a: 0,
-    }, ],
-    xkey: 'y',
-    ykeys: ['a'],
-    labels: ['% total'],
-    barColors: ['#55ce63'],
-    lineWidth: '3px',
-    resize: true,
-    redraw: true
-});
+// var chart_examen_capacitacion = Morris.Bar({
+//     element: 'chart_examen_capacitacion',
+//     data: [{
+//         y: 'Capacitación',
+//         a: 0,
+//     }, ],
+//     xkey: 'y',
+//     ykeys: ['a'],
+//     labels: ['% total'],
+//     barColors: ['#55ce63'],
+//     lineWidth: '3px',
+//     resize: true,
+//     redraw: true
+// });
 
-var chart_asistencia_empleados = Morris.Bar({
-    element: 'chart_asistencia_empleados',
-    data: [{
-        y: 'Asistencias',
-        a: 0,
-    }, ],
-    xkey: 'y',
-    ykeys: ['a'],
-    labels: ['Asistencia de empleados'],
-    barColors: ['#ef5350'],
-    lineWidth: '3px',
-    resize: true,
-    redraw: true
-});
+// var chart_asistencia_empleados = Morris.Bar({
+//     element: 'chart_asistencia_empleados',
+//     data: [{
+//         y: 'Asistencias',
+//         a: 0,
+//     }, ],
+//     xkey: 'y',
+//     ykeys: ['a'],
+//     labels: ['Asistencia de empleados'],
+//     barColors: ['#ef5350'],
+//     lineWidth: '3px',
+//     resize: true,
+//     redraw: true
+// });
 
 var chart_progreso_proyectos = Morris.Bar({
     element: 'chart_progreso_proyectos',
@@ -96,45 +96,45 @@ var chart_progreso_proyectos = Morris.Bar({
     redraw: true
 });
 
-chart_ganancia_empleados = Morris.Bar({
-    element: 'chart_ganancia_empleados',
-    data: [{
-        y: 'Ganancia de Empleados',
-        a: 0,
-    }, ],
-    xkey: 'y',
-    ykeys: ['a'],
-    labels: ['Total Ganancia'],
-    barColors: ['#009efb'],
-    lineWidth: '3px',
-    resize: true,
-    redraw: true
-});
+// chart_ganancia_empleados = Morris.Bar({
+//     element: 'chart_ganancia_empleados',
+//     data: [{
+//         y: 'Ganancia de Empleados',
+//         a: 0,
+//     }, ],
+//     xkey: 'y',
+//     ykeys: ['a'],
+//     labels: ['Total Ganancia'],
+//     barColors: ['#009efb'],
+//     lineWidth: '3px',
+//     resize: true,
+//     redraw: true
+// });
 
-var chat_progreso_actividades = Morris.Bar({
-    element: 'chat_progreso_actividades',
-    data: [{
-        y: 'Cantidad de progreso de actividades de empleados',
-        a: 0,
-    }, ],
-    xkey: 'y',
-    ykeys: ['a'],
-    labels: ['% Progreso'],
-    barColors: ['#ffbc34'],
-    lineWidth: '3px',
-    resize: true,
-    redraw: true
-});
+// var chat_progreso_actividades = Morris.Bar({
+//     element: 'chat_progreso_actividades',
+//     data: [{
+//         y: 'Cantidad de progreso de actividades de empleados',
+//         a: 0,
+//     }, ],
+//     xkey: 'y',
+//     ykeys: ['a'],
+//     labels: ['% Progreso'],
+//     barColors: ['#ffbc34'],
+//     lineWidth: '3px',
+//     resize: true,
+//     redraw: true
+// });
 
 $(document).ready(function () {
-    cantidad_empleados();
-    horas_trabajo_empleados();
+    // cantidad_empleados();
+    // horas_trabajo_empleados();
     f_ingresos_economicos();
-    f_asistencia_empleados();
+    // f_asistencia_empleados();
     f_desarrollo_proyectos();
-    f_ganancia_empleados();
-    f_progreso_actividades();
-    f_examen_capacitacion();
+    // f_ganancia_empleados();
+    // f_progreso_actividades();
+    // f_examen_capacitacion();
 });
 
 function cantidad_empleados() {

@@ -3,7 +3,9 @@
     $(document).ready(function () {
 
         var notificationTimeout;
-
+        var modal_info_actividad = $("#modal_info_actividad");
+        var actividad_actual = null;
+        var elemento_actual = null;
         //Shows updated notification popup 
         var updateNotification = function (task, notificationText, newClass) {
             var notificationPopup = $('.notification-popup ');
@@ -44,15 +46,15 @@
                     success: function (response) {
                         var todoListScrollHeight = $('.task-list-body').prop('scrollHeight');
                         // Make a new task template
-                        var newTemplate = $(taskTemplate).clone();
+                        var newTemplate = $(response.actividadTemplate).clone();
                         // update the task label in the new template
                         var task_label = newTemplate.find('.task-label');
-                        task_label.attr('data-url',response.url);
+                        task_label.attr('data-url', response.url);
                         task_label.text(response.actividad.nombre);
                         // update the task url check
                         var task_check = newTemplate.find('.task-check');
                         var complete_btn = task_check.find('.complete-btn');
-                        complete_btn.attr('data-url',response.url);
+                        complete_btn.attr('data-url', response.url);
                         // Add new class to the template
                         newTemplate.addClass('new');
                         // Remove complete class in the new Template in case it is present
@@ -90,7 +92,18 @@
 
         // Initalizes HTML template for a given task 
         //var taskTemplate = $($('#task-template').html());
-        var taskTemplate = '<li class="task"><div class="task-container"><span class="task-action-btn task-check"><span class="action-circle large complete-btn" title="Mark Complete"><i class="material-icons">check</i></span></span><span class="task-label" contenteditable="true"></span><span class="task-action-btn task-btn-right"><span class="action-circle large" title="Assign"> <span class="action-circle large delete-btn" title="Delete Task"><i class="material-icons">delete</i></span></span></div></li>';
+        var taskTemplate = `
+        <li class="task">
+            <div class="task-container">
+                <span class="task-action-btn task-check">
+                    <span class="action-circle large complete-btn" title="Mark Complete"><i class="material-icons">check</i></span>
+                </span>
+                <span class="task-label" contenteditable="true"></span>
+                <span class="task-action-btn task-btn-right">
+                    <span class="action-circle large delete-btn" title="Eliminar tarea"><i class="material-icons">delete</i></span>
+                </span>
+            </div>
+        </li>`;
         // Shows panel for entering new tasks
         $('.add-task-btn').click(function () {
             var newTaskWrapperOffset = $('.new-task-wrapper').offset().top;
@@ -125,6 +138,42 @@
             });
         });
 
+        // Boton para actualizar informacion de la actividad
+        $('#task-list').on('click', '.task-action-btn .informacion-btn', function () {
+            elemento_actual = $(this).parents("li.task");
+            actividad_actual = $(this).attr('data-url');
+            iniciaForm();
+            modal_info_actividad.modal("show");
+        });
+
+        // Boton para descargar el archivo
+        $('#task-list').on('click', '.contenedor_info_iconos .info_actividad.descargar', function (e) {
+            console.log("asdasdasdasda");
+            e.preventDefault();
+            var url = $(this).attr('data-url');
+            console.log(url);
+
+            $.ajax({
+                headers: {
+                    'x-csrf-token': $('#token').val()
+                },
+                type: "POST",
+                url: url,
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    const data = response;
+                    const link = document.createElement('a');
+                    link.setAttribute('href', data);
+                    link.setAttribute('download', ''); // Need to modify filename ...
+                    link.click();
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            });
+        });
+
         // Task label Keyup Update
         $('#task-list').on('change blur', '.task-label', function () {
             let task_label = $(this);
@@ -150,6 +199,8 @@
 
         // Marks a task as complete
         $('#task-list').on('click', '.task-action-btn .complete-btn', function () {
+            elemento_actual = $(this).parents("li.task")
+            let self = $(this);
             var task = $(this).closest('.task');
             var taskText = task.find('.task-label').text();
             var newTitle = task.hasClass('completed') ? 'Mark Complete' : 'Mark Incomplete';
@@ -178,9 +229,30 @@
                 success: function (response) {
                     task.toggleClass('completed');
                     actualizaInfoProyecto();
+                    $("#txt_nombre_tarea").text(response.actividad.nombre);
+
+                    let el_actualizado = $(response.actividadTemplate).clone();
+                    elemento_actual.html(el_actualizado.html());
+                    actividad_actual = response.url;
+
+                    if (response.actividad.estado == 'COMPLETO') {
+                        iniciaForm();
+                        modal_info_actividad.modal("show");
+                    } else {
+                        actividad_actual = null;
+                    }
                 }
             });
 
+        });
+
+        // ENVIO INFORMACION ADICIONAL
+        $("#btnEnvioInfoActividad").click(function () {
+            if (actividad_actual) {
+                actualizaInfoAdicionalProyecto(event);
+            } else {
+                modal_info_actividad.modal("hide");
+            }
         });
 
         // Adds a task on hitting Enter key, hides the panel for entering new task on hitting Esc. key
@@ -238,12 +310,62 @@
                 success: function (response) {
                     $('#txtTareasPendientes').text(response.pendientes);
                     $('#txtTareasCompletas').text(response.completos);
-                    $('#baraProgreso').css('width',`${response.porcentaje}%`);
-                    $('#baraProgreso').attr('data-original-title',`${response.porcentaje}%`);
+                    $('#baraProgreso').css('width', `${response.porcentaje}%`);
+                    $('#baraProgreso').attr('data-original-title', `${response.porcentaje}%`);
                     $('#txtPorcentaje').text(`${response.porcentaje}%`);
                 }
             });
         }
 
+        var actualizaInfoAdicionalProyecto = function (e) {
+            e.preventDefault();
+            let archivo_actividad = $("#archivo_actividad");
+            let empresa_adjudicado = $("#empresa_adjudicado");
+            let monto = $("#monto");
+
+            let formData = new FormData();
+            let archivo = archivo_actividad[0].files[0];
+            formData.append("archivo", archivo);
+            formData.append("empresa_adjudicado", empresa_adjudicado.val());
+            formData.append("monto", monto.val());
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('#token').val()
+                },
+                type: "POST",
+                url: actividad_actual,
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: "json",
+                success: function (response) {
+                    actualizaInfoProyecto();
+                    $("#txt_nombre_tarea").text(response.actividad.nombre);
+                    updateNotification(response.actividad.nombre, 'Tarea actualizada', 'success')
+                    modal_info_actividad.modal("hide");
+                    let el_actualizado = $(response.actividadTemplate).clone();
+                    elemento_actual.html(el_actualizado.html());
+                    actividad_actual = null;
+                    limpiarForm();
+                    toggleTitle();
+                }
+            });
+        }
+
+        var iniciaForm = function () {
+            let boton_info = elemento_actual.find(".informacion-btn");
+            let nombre = boton_info.attr('data-nombre');
+            $("#txt_nombre_tarea").text(nombre);
+            $("#empresa_adjudicado").val(boton_info.attr('data-empresa'));
+            $("#monto").val(boton_info.attr('data-monto'));
+        }
+
+        var limpiarForm = function () {
+            $("#archivo_actividad").val("");
+            $("#empresa_adjudicado").val("");
+            $("#monto").val("");
+        }
     });
 }(jQuery))

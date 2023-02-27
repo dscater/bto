@@ -170,6 +170,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::put('actividads/update/{actividad}', 'ActividadController@update')->name('actividads.update');
 
+    Route::post('actividads/update2/{actividad}', 'ActividadController@update2')->name('actividads.update2');
+
+    Route::post('actividads/descargar/{actividad}', 'ActividadController@descargar')->name('actividads.descargar');
+
     Route::delete('actividads/destroy/{actividad}', 'ActividadController@destroy')->name('actividads.destroy');
 
     Route::get('actividads/actividadesProyecto/{proyecto}', 'ActividadController@actividadesProyecto')->name('actividads.actividadesProyecto');
