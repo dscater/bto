@@ -1,4 +1,9 @@
 <?php
+Route::get('/clear-cache', function (){ 
+    Artisan::call('config:cache');
+    return "Cache is cleared";
+});
+
 Route::get('/', 'Auth\LoginController@showLoginForm')->name('inicio');
 Route::post('login', 'Auth\LoginController@login')->name('login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');

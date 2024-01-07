@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-6">
         <div class="card dash-widget">
             <div class="card-body">
                 <span class="dash-widget-icon"><i class="fa fa-cubes"></i></span>
@@ -10,7 +10,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-6">
         <div class="card dash-widget">
             <div class="card-body">
                 <span class="dash-widget-icon"><i class="fa fa-users"></i></span>
@@ -21,7 +21,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-6">
         <div class="card dash-widget">
             <div class="card-body">
                 <span class="dash-widget-icon"><i class="fa fa-users"></i></span>
@@ -32,7 +32,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-6">
         <div class="card dash-widget">
             <div class="card-body">
                 <span class="dash-widget-icon"><i class="fa fa-user"></i></span>
@@ -220,7 +220,7 @@
         </div>
     </div> --}}
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-purple text-white text-center">
                 <span class="card-title text-white">Desarrollo de progreso de proyectos</span>
@@ -254,7 +254,7 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-warning text-white text-center">
                 <span class="card-title text-white">Ingresos económicos</span>

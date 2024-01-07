@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
         <div class="card dash-widget">
             <div class="card-body">
                 <span class="dash-widget-icon"><i class="fa fa-cubes"></i></span>
@@ -10,7 +10,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
         <div class="card dash-widget">
             <div class="card-body">
                 <span class="dash-widget-icon"><i class="fa fa-users"></i></span>
@@ -21,7 +21,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
         <div class="card dash-widget">
             <div class="card-body">
                 <span class="dash-widget-icon"><i class="fa fa-users"></i></span>
@@ -35,7 +35,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-purple text-white text-center">
                 <span class="card-title text-white">Cantidad de Empleados</span>
@@ -72,7 +72,7 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-info text-white text-center">
                 <span class="card-title text-white">Tiempo de productividad laboral</span>
@@ -117,7 +117,7 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-warning text-white text-center">
                 <span class="card-title text-white">Ingresos económicos</span>
@@ -164,7 +164,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-success text-white text-center">
                 <span class="card-title text-white">Capacitación</span>
@@ -209,7 +209,7 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-danger text-white text-center">
                 <span class="card-title text-white">Asistencia de empleados</span>
@@ -254,7 +254,7 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-purple text-white text-center">
                 <span class="card-title text-white">Desarrollo de progreso de proyectos</span>
@@ -290,7 +290,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-info text-white text-center">
                 <span class="card-title text-white">Ganancia de Empleados</span>
@@ -327,7 +327,7 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-warning text-white text-center">
                 <span class="card-title text-white">Cantidad de progreso de actividades de empleados</span>
