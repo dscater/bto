@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jan 07, 2024 at 04:47 PM
--- Server version: 8.0.30
--- PHP Version: 7.4.4
+-- Servidor: localhost:3306
+-- Tiempo de generación: 07-01-2024 a las 21:41:49
+-- Versión del servidor: 8.0.30
+-- Versión de PHP: 7.3.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `bto_database`
+-- Base de datos: `bto_database`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `actividads`
+-- Estructura de tabla para la tabla `actividads`
 --
 
 CREATE TABLE `actividads` (
@@ -41,26 +41,28 @@ CREATE TABLE `actividads` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `actividads`
+-- Volcado de datos para la tabla `actividads`
 --
 
 INSERT INTO `actividads` (`id`, `proyecto_id`, `nombre`, `archivo`, `empresa_adjudicado`, `monto`, `estado`, `fecha_registro`, `created_at`, `updated_at`) VALUES
-(3, 1, 'TAREA 1', '31677528038.pdf', 'EMPRESA MODIFICADOS', '250.00', 'COMPLETO', '2021-03-23', '2021-03-23 21:26:16', '2023-02-27 20:00:38'),
+(3, 1, 'TAREA 1', '31677528038.pdf', 'EMPRESA MODIFICADOS', 250.00, 'COMPLETO', '2021-03-23', '2021-03-23 21:26:16', '2023-02-27 20:00:38'),
 (5, 1, 'TAREA 2', '51677528033.pdf', 'SS', NULL, 'COMPLETO', '2021-03-23', '2021-03-23 22:30:37', '2023-02-27 20:00:33'),
 (6, 1, 'TAREA 3', NULL, 'PRUEBA EMPRESA', NULL, 'COMPLETO', '2021-03-23', '2021-03-23 22:31:15', '2023-02-27 20:02:45'),
 (11, 3, 'TAREA 1', NULL, NULL, NULL, 'COMPLETO', '2021-03-26', '2021-03-26 21:26:37', '2021-03-26 21:26:47'),
-(12, 4, 'REUNIÓN', '121677528195.pdf', 'PRUEBA FORM CON ARCHIVO  Y MONTO', '300.00', 'COMPLETO', '2021-04-01', '2021-04-01 21:13:37', '2023-02-27 20:03:15'),
+(12, 4, 'REUNIÓN', '121677528195.pdf', 'PRUEBA FORM CON ARCHIVO  Y MONTO', 300.00, 'COMPLETO', '2021-04-01', '2021-04-01 21:13:37', '2023-02-27 20:03:15'),
 (13, 4, 'ELABORACIÓN', NULL, NULL, NULL, 'PENDIENTE', '2021-04-01', '2021-04-01 21:13:50', '2021-04-01 21:13:50'),
 (14, 2, 'TAREA 5', NULL, NULL, NULL, 'PENDIENTE', '2023-02-27', '2023-02-27 17:11:20', '2023-02-27 17:27:37'),
 (15, 2, 'TAREA 4', NULL, NULL, NULL, 'PENDIENTE', '2023-02-27', '2023-02-27 17:11:26', '2023-02-27 17:27:34'),
 (16, 2, 'TAREA 3', NULL, NULL, NULL, 'PENDIENTE', '2023-02-27', '2023-02-27 17:27:28', '2023-02-27 17:27:28'),
 (20, 2, 'DFSDFASD', NULL, NULL, NULL, 'PENDIENTE', '2023-02-27', '2023-02-27 17:31:51', '2023-02-27 17:32:03'),
-(22, 1, 'ASDASDAS', '221677528017.pdf', 'KA', '34.00', 'PENDIENTE', '2023-02-27', '2023-02-27 18:34:16', '2023-02-27 20:02:36');
+(22, 1, 'ASDASDAS', '221677528017.pdf', 'KA', 34.00, 'PENDIENTE', '2023-02-27', '2023-02-27 18:34:16', '2023-02-27 20:02:36'),
+(25, 5, 'TAREA 1', NULL, NULL, NULL, 'PENDIENTE', '2024-01-07', '2024-01-07 20:59:27', '2024-01-07 20:59:27'),
+(27, 5, 'TAREA 2', '271704661222.pdf', '', NULL, 'COMPLETO', '2024-01-07', '2024-01-07 20:59:35', '2024-01-07 21:00:22');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `asistencias`
+-- Estructura de tabla para la tabla `asistencias`
 --
 
 CREATE TABLE `asistencias` (
@@ -75,7 +77,7 @@ CREATE TABLE `asistencias` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `asistencias`
+-- Volcado de datos para la tabla `asistencias`
 --
 
 INSERT INTO `asistencias` (`id`, `empleado_id`, `hora_inicio`, `hora_fin`, `fecha`, `fecha_registro`, `created_at`, `updated_at`) VALUES
@@ -83,12 +85,13 @@ INSERT INTO `asistencias` (`id`, `empleado_id`, `hora_inicio`, `hora_fin`, `fech
 (2, 4, '10:46:48', '17:23:53', '2023-03-26', '2023-03-26', '2021-03-26 14:46:52', '2021-03-26 21:23:56'),
 (3, 1, '10:47:01', '17:23:35', '2023-03-26', '2023-03-26', '2021-03-26 14:47:05', '2021-03-26 21:23:44'),
 (4, 5, '17:23:24', '22:23:24', '2023-03-26', '2023-03-26', '2021-03-26 21:23:26', '2021-03-26 21:23:26'),
-(5, 6, '20:28:01', '22:23:24', '2023-03-29', '2023-03-29', '2021-03-30 00:28:13', '2021-03-30 00:28:13');
+(5, 6, '20:28:01', '22:23:24', '2023-03-29', '2023-03-29', '2021-03-30 00:28:13', '2021-03-30 00:28:13'),
+(6, 7, '13:34:43', '16:38:33', '2024-01-07', '2024-01-07', '2024-01-07 20:34:48', '2024-01-07 20:38:35');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `clientes`
+-- Estructura de tabla para la tabla `clientes`
 --
 
 CREATE TABLE `clientes` (
@@ -110,7 +113,7 @@ CREATE TABLE `clientes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `clientes`
+-- Volcado de datos para la tabla `clientes`
 --
 
 INSERT INTO `clientes` (`id`, `nombre`, `apellidos`, `ci`, `ci_exp`, `email`, `fono`, `cel`, `dir`, `foto`, `empresa`, `fecha_registro`, `estado`, `created_at`, `updated_at`) VALUES
@@ -121,7 +124,7 @@ INSERT INTO `clientes` (`id`, `nombre`, `apellidos`, `ci`, `ci_exp`, `email`, `f
 -- --------------------------------------------------------
 
 --
--- Table structure for table `datos_usuarios`
+-- Estructura de tabla para la tabla `datos_usuarios`
 --
 
 CREATE TABLE `datos_usuarios` (
@@ -141,7 +144,7 @@ CREATE TABLE `datos_usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `datos_usuarios`
+-- Volcado de datos para la tabla `datos_usuarios`
 --
 
 INSERT INTO `datos_usuarios` (`id`, `nombre`, `paterno`, `materno`, `ci`, `ci_exp`, `dir`, `email`, `fono`, `cel`, `user_id`, `created_at`, `updated_at`) VALUES
@@ -151,7 +154,7 @@ INSERT INTO `datos_usuarios` (`id`, `nombre`, `paterno`, `materno`, `ci`, `ci_ex
 -- --------------------------------------------------------
 
 --
--- Table structure for table `departamentos`
+-- Estructura de tabla para la tabla `departamentos`
 --
 
 CREATE TABLE `departamentos` (
@@ -163,7 +166,7 @@ CREATE TABLE `departamentos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `departamentos`
+-- Volcado de datos para la tabla `departamentos`
 --
 
 INSERT INTO `departamentos` (`id`, `nombre`, `descripcion`, `created_at`, `updated_at`) VALUES
@@ -174,7 +177,7 @@ INSERT INTO `departamentos` (`id`, `nombre`, `descripcion`, `created_at`, `updat
 -- --------------------------------------------------------
 
 --
--- Table structure for table `designacions`
+-- Estructura de tabla para la tabla `designacions`
 --
 
 CREATE TABLE `designacions` (
@@ -186,7 +189,7 @@ CREATE TABLE `designacions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `designacions`
+-- Volcado de datos para la tabla `designacions`
 --
 
 INSERT INTO `designacions` (`id`, `nombre`, `descripcion`, `created_at`, `updated_at`) VALUES
@@ -197,7 +200,7 @@ INSERT INTO `designacions` (`id`, `nombre`, `descripcion`, `created_at`, `update
 -- --------------------------------------------------------
 
 --
--- Table structure for table `empleados`
+-- Estructura de tabla para la tabla `empleados`
 --
 
 CREATE TABLE `empleados` (
@@ -224,7 +227,7 @@ CREATE TABLE `empleados` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `empleados`
+-- Volcado de datos para la tabla `empleados`
 --
 
 INSERT INTO `empleados` (`id`, `nombre`, `paterno`, `materno`, `ci`, `ci_exp`, `codigo_empleado`, `fecha_ingreso`, `fono`, `cel`, `dir`, `email`, `empresa_id`, `departamento_id`, `designacion_id`, `estado`, `fecha_registro`, `user_id`, `created_at`, `updated_at`) VALUES
@@ -233,12 +236,13 @@ INSERT INTO `empleados` (`id`, `nombre`, `paterno`, `materno`, `ci`, `ci_exp`, `
 (3, 'MARIO', 'CACERES', 'MARTINEZ', '4561236', 'LP', 'E003', '2021-02-03', '2314568', '78945612', 'ZONA LOS OLIVOS CALLE 3 #342', 'mario@gmail.com', 1, 1, 1, 'ACTIVO', '2021-03-23', 5, '2021-03-23 14:13:01', '2021-03-23 14:14:19'),
 (4, 'MARIA', 'MAMANI', '', '456789', 'LP', 'E004', '2021-01-02', '2314568', '78945612', 'ZONA LOS OLIVOS CALLE 3 #342', 'maria@gmail.com', 2, 1, 2, 'ACTIVO', '2021-03-23', 6, '2021-03-23 14:16:31', '2021-03-23 14:16:31'),
 (5, 'ANDRES', 'MARQUEZ', '', '456123', 'LP', 'E005', '2021-03-02', '2314568', '78945612', 'ZONA LOS OLIVOS CALLE 3 #342', 'andres@gmail.com', 3, 3, 3, 'ACTIVO', '2021-03-25', 8, '2021-03-25 22:46:00', '2021-03-25 22:46:00'),
-(6, 'BRAYAN', 'PACO', 'PERAL', '1020309', 'LP', '20008', '2021-03-01', '2885245', '79855414', 'ZONA CENTRAL', 'brayan@gmail.com', 1, 1, 1, 'ACTIVO', '2021-03-29', 9, '2021-03-29 23:53:44', '2021-03-29 23:53:44');
+(6, 'BRAYAN', 'PACO', 'PERAL', '1020309', 'LP', '20008', '2021-03-01', '2885245', '79855414', 'ZONA CENTRAL', 'brayan@gmail.com', 1, 1, 1, 'ACTIVO', '2021-03-29', 9, '2021-03-29 23:53:44', '2021-03-29 23:53:44'),
+(7, 'JAVIER', 'MARTINEZ', 'MARTINEZ', '6666', 'LP', 'E008', '2024-01-07', '222222', '777777', 'LOS OLIVOS', 'javier@gmail.com', 1, 1, 1, 'ACTIVO', '2024-01-07', 10, '2024-01-07 18:19:51', '2024-01-07 18:19:51');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `empresas`
+-- Estructura de tabla para la tabla `empresas`
 --
 
 CREATE TABLE `empresas` (
@@ -250,7 +254,7 @@ CREATE TABLE `empresas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `empresas`
+-- Volcado de datos para la tabla `empresas`
 --
 
 INSERT INTO `empresas` (`id`, `nombre`, `descripcion`, `created_at`, `updated_at`) VALUES
@@ -262,7 +266,7 @@ INSERT INTO `empresas` (`id`, `nombre`, `descripcion`, `created_at`, `updated_at
 -- --------------------------------------------------------
 
 --
--- Table structure for table `examens`
+-- Estructura de tabla para la tabla `examens`
 --
 
 CREATE TABLE `examens` (
@@ -278,7 +282,7 @@ CREATE TABLE `examens` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `examens`
+-- Volcado de datos para la tabla `examens`
 --
 
 INSERT INTO `examens` (`id`, `empresa_id`, `departamento_id`, `designacion_id`, `nombre`, `fecha_registro`, `estado`, `created_at`, `updated_at`) VALUES
@@ -290,7 +294,7 @@ INSERT INTO `examens` (`id`, `empresa_id`, `departamento_id`, `designacion_id`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `examen_empleados`
+-- Estructura de tabla para la tabla `examen_empleados`
 --
 
 CREATE TABLE `examen_empleados` (
@@ -304,19 +308,20 @@ CREATE TABLE `examen_empleados` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `examen_empleados`
+-- Volcado de datos para la tabla `examen_empleados`
 --
 
 INSERT INTO `examen_empleados` (`id`, `examen_id`, `empleado_id`, `resultado`, `fecha`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, 25.00, '2021-03-26', '2021-03-26 20:31:48', '2021-03-26 20:31:48'),
 (2, 2, 4, 0.00, '2021-03-26', '2021-03-26 20:32:36', '2021-03-26 20:32:36'),
 (3, 4, 5, 100.00, '2021-03-26', '2021-03-26 21:28:50', '2021-03-26 21:28:50'),
-(4, 3, 1, 0.00, '2021-04-01', '2021-04-01 21:22:04', '2021-04-01 21:22:04');
+(4, 3, 1, 0.00, '2021-04-01', '2021-04-01 21:22:04', '2021-04-01 21:22:04'),
+(5, 1, 7, 5.00, '2024-01-07', '2024-01-07 21:13:51', '2024-01-07 21:13:51');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `horarios`
+-- Estructura de tabla para la tabla `horarios`
 --
 
 CREATE TABLE `horarios` (
@@ -343,7 +348,7 @@ CREATE TABLE `horarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `horarios`
+-- Volcado de datos para la tabla `horarios`
 --
 
 INSERT INTO `horarios` (`id`, `empleado_id`, `hi_lu`, `hf_lu`, `hi_mar`, `hf_mar`, `hi_mier`, `hf_mier`, `hi_jue`, `hf_jue`, `hi_vier`, `hf_vier`, `hi_sa`, `hf_sa`, `hi_do`, `hf_do`, `horas_trabajo`, `fecha_registro`, `created_at`, `updated_at`) VALUES
@@ -352,12 +357,13 @@ INSERT INTO `horarios` (`id`, `empleado_id`, `hi_lu`, `hf_lu`, `hi_mar`, `hf_mar
 (3, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2021-03-25', '2021-03-25 15:02:11', '2021-03-25 15:02:11'),
 (5, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2021-03-25', '2021-03-25 15:03:28', '2021-03-25 15:03:28'),
 (6, 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '17:25:00', '22:30:00', NULL, NULL, NULL, NULL, 5, '2021-03-26', '2021-03-26 21:22:16', '2021-03-26 21:23:23'),
-(7, 6, '08:00:00', '18:00:00', '08:00:00', '18:00:00', NULL, NULL, '08:00:00', '18:00:00', '08:00:00', '18:00:00', NULL, NULL, NULL, NULL, 0, '2021-03-29', '2021-03-29 23:53:56', '2021-03-29 23:54:58');
+(7, 6, '08:00:00', '18:00:00', '08:00:00', '18:00:00', NULL, NULL, '08:00:00', '18:00:00', '08:00:00', '18:00:00', NULL, NULL, NULL, NULL, 0, '2021-03-29', '2021-03-29 23:53:56', '2021-03-29 23:54:58'),
+(8, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '14:00:00', '16:30:00', 8, '2024-01-07', '2024-01-07 20:29:25', '2024-01-07 20:42:55');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `migrations`
+-- Estructura de tabla para la tabla `migrations`
 --
 
 CREATE TABLE `migrations` (
@@ -367,7 +373,7 @@ CREATE TABLE `migrations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `migrations`
+-- Volcado de datos para la tabla `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
@@ -393,7 +399,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `preguntas`
+-- Estructura de tabla para la tabla `preguntas`
 --
 
 CREATE TABLE `preguntas` (
@@ -411,7 +417,7 @@ CREATE TABLE `preguntas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `preguntas`
+-- Volcado de datos para la tabla `preguntas`
 --
 
 INSERT INTO `preguntas` (`id`, `examen_id`, `descripcion`, `a`, `b`, `c`, `d`, `respuesta`, `valor`, `created_at`, `updated_at`) VALUES
@@ -427,7 +433,7 @@ INSERT INTO `preguntas` (`id`, `examen_id`, `descripcion`, `a`, `b`, `c`, `d`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyectos`
+-- Estructura de tabla para la tabla `proyectos`
 --
 
 CREATE TABLE `proyectos` (
@@ -448,19 +454,20 @@ CREATE TABLE `proyectos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `proyectos`
+-- Volcado de datos para la tabla `proyectos`
 --
 
 INSERT INTO `proyectos` (`id`, `nombre`, `cliente_id`, `fecha_ini`, `fecha_fin`, `tarifa`, `prioridad`, `lider_proyecto`, `descripcion`, `archivo`, `fecha_registro`, `estado`, `created_at`, `updated_at`) VALUES
 (1, 'PROYECTO 1', 2, '2021-03-24', '2021-04-05', '250', 'ALTO', 1, '<p>Descripcion del proyecto 1 modificado\r\nModificacion de la descripcion del proyecto 1</p>', 'PROYECTO 11616515750.pdf', '2021-03-23', 1, '2021-03-23 14:37:22', '2021-03-23 22:01:23'),
 (2, 'PROYECTO 2', 1, '2021-03-25', '2021-03-31', '450', 'MEDIO', 2, '<p>descripcion del proyecto 2</p>', 'PROYECTO 21616689344.pdf', '2021-03-25', 1, '2021-03-25 16:22:24', '2021-03-25 16:22:24'),
 (3, 'PROYECTO 3', 3, '2021-03-26', '2021-04-08', '10000', 'ALTO', 5, '<p>descripcion del proyecto 3</p>', 'PROYECTO 31616793982.pdf', '2021-03-26', 1, '2021-03-26 21:26:22', '2021-03-26 21:26:22'),
-(4, 'PROYECTO 4', 3, '2021-04-01', '2021-04-30', '10000', 'MEDIO', 6, '<p>Proyecto nuevo</p>', 'PROYECTO 41617309943.pdf', '2021-04-01', 1, '2021-04-01 20:45:43', '2021-04-01 20:45:43');
+(4, 'PROYECTO 4', 3, '2021-04-01', '2021-04-30', '10000', 'MEDIO', 6, '<p>Proyecto nuevo</p>', 'PROYECTO 41617309943.pdf', '2021-04-01', 1, '2021-04-01 20:45:43', '2021-04-01 20:45:43'),
+(5, 'PROYECTO #1 (2024)', 2, '2024-01-05', '2024-01-31', '2400', 'MEDIO', 2, '<p>Descripcion de nuevo proyecto</p>', 'PROYECTO #1 (2024)1704660964.pdf', '2024-01-07', 1, '2024-01-07 20:56:04', '2024-01-07 20:56:04');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto_equipos`
+-- Estructura de tabla para la tabla `proyecto_equipos`
 --
 
 CREATE TABLE `proyecto_equipos` (
@@ -472,7 +479,7 @@ CREATE TABLE `proyecto_equipos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `proyecto_equipos`
+-- Volcado de datos para la tabla `proyecto_equipos`
 --
 
 INSERT INTO `proyecto_equipos` (`id`, `proyecto_id`, `empleado_id`, `created_at`, `updated_at`) VALUES
@@ -486,12 +493,14 @@ INSERT INTO `proyecto_equipos` (`id`, `proyecto_id`, `empleado_id`, `created_at`
 (9, 3, 3, '2021-03-26 21:26:22', '2021-03-26 21:26:22'),
 (10, 4, 2, '2021-04-01 20:45:43', '2021-04-01 20:45:43'),
 (11, 4, 3, '2021-04-01 20:45:43', '2021-04-01 20:45:43'),
-(12, 4, 5, '2021-04-01 20:45:43', '2021-04-01 20:45:43');
+(12, 4, 5, '2021-04-01 20:45:43', '2021-04-01 20:45:43'),
+(13, 5, 3, '2024-01-07 20:56:04', '2024-01-07 20:56:04'),
+(14, 5, 5, '2024-01-07 20:56:04', '2024-01-07 20:56:04');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `razon_socials`
+-- Estructura de tabla para la tabla `razon_socials`
 --
 
 CREATE TABLE `razon_socials` (
@@ -513,7 +522,7 @@ CREATE TABLE `razon_socials` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `razon_socials`
+-- Volcado de datos para la tabla `razon_socials`
 --
 
 INSERT INTO `razon_socials` (`id`, `codigo`, `nombre`, `alias`, `ciudad`, `dir`, `nro_aut`, `fono`, `cel`, `casilla`, `correo`, `logo`, `actividad_economica`, `created_at`, `updated_at`) VALUES
@@ -522,7 +531,7 @@ INSERT INTO `razon_socials` (`id`, `codigo`, `nombre`, `alias`, `ciudad`, `dir`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sueldos`
+-- Estructura de tabla para la tabla `sueldos`
 --
 
 CREATE TABLE `sueldos` (
@@ -537,20 +546,21 @@ CREATE TABLE `sueldos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `sueldos`
+-- Volcado de datos para la tabla `sueldos`
 --
 
 INSERT INTO `sueldos` (`id`, `empleado_id`, `sueldo`, `moneda`, `tipo_pago`, `fecha_registro`, `created_at`, `updated_at`) VALUES
-(2, 1, '1500.00', 'BOLIVIANOS', 'DÍA', '2021-03-22', '2021-03-22 14:38:55', '2021-03-22 14:38:55'),
-(3, 2, '8000.00', 'BOLIVIANOS', 'DÍA', '2021-03-25', '2021-03-25 20:52:59', '2021-03-25 20:52:59'),
-(4, 5, '1000.00', 'DÓLARES', 'DÍA', '2021-03-26', '2021-03-26 21:27:57', '2021-03-26 21:27:57'),
-(5, 4, '1000.00', 'BOLIVIANOS', 'HORA', '2021-03-26', '2021-03-26 21:28:08', '2021-03-26 21:28:08'),
-(6, 6, '50.00', 'BOLIVIANOS', 'HORA', '2021-03-29', '2021-03-29 23:57:22', '2021-03-29 23:57:22');
+(2, 1, 1500.00, 'BOLIVIANOS', 'DÍA', '2021-03-22', '2021-03-22 14:38:55', '2021-03-22 14:38:55'),
+(3, 2, 8000.00, 'BOLIVIANOS', 'DÍA', '2021-03-25', '2021-03-25 20:52:59', '2021-03-25 20:52:59'),
+(4, 5, 1000.00, 'DÓLARES', 'DÍA', '2021-03-26', '2021-03-26 21:27:57', '2021-03-26 21:27:57'),
+(5, 4, 1000.00, 'BOLIVIANOS', 'HORA', '2021-03-26', '2021-03-26 21:28:08', '2021-03-26 21:28:08'),
+(6, 6, 50.00, 'BOLIVIANOS', 'HORA', '2021-03-29', '2021-03-29 23:57:22', '2021-03-29 23:57:22'),
+(7, 3, 5000.00, 'BOLIVIANOS', 'HORA', '2024-01-07', '2024-01-07 21:31:40', '2024-01-07 21:31:40');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Estructura de tabla para la tabla `users`
 --
 
 CREATE TABLE `users` (
@@ -565,7 +575,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `users`
+-- Volcado de datos para la tabla `users`
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `tipo`, `foto`, `estado`, `created_at`, `updated_at`) VALUES
@@ -577,12 +587,13 @@ INSERT INTO `users` (`id`, `email`, `password`, `tipo`, `foto`, `estado`, `creat
 (6, 'maria@gmail.com', '$2y$10$o7QorBafs8oTPzSTFld3aOT/qMz7kWw.uZ9U6CoG0/wqSKAfH0ZGG', 'EMPLEADO', 'MARIA1616508991.jpg', 1, '2021-03-23 14:16:31', '2021-03-23 14:16:31'),
 (7, 'elvis@gmail.com', '$2y$10$vT4tmF3jLyhc3O.w.h4j8OdKRqlkptvTwt3O6P86tvd/unF0zf2FO', 'AUXILIAR', 'ELVIS1616705126.png', 1, '2021-03-25 20:45:26', '2021-03-25 20:57:18'),
 (8, 'andres@gmail.com', '$2y$10$gXAdURRL1IPT00BmSokIiuMH01mh4U8nLSeIadXGrVAUcp1yuzMqK', 'EMPLEADO', 'ANDRES1616712360.png', 1, '2021-03-25 22:46:00', '2021-03-25 22:46:00'),
-(9, 'brayan@gmail.com', '$2y$10$ILO1DI1Fa20IJ526rTrdq.W6IKkqKRB3GM09iaD7h5NBR32dRGLT2', 'EMPLEADO', 'BRAYAN1617062024.jpg', 1, '2021-03-29 23:53:44', '2021-03-29 23:53:44');
+(9, 'brayan@gmail.com', '$2y$10$ILO1DI1Fa20IJ526rTrdq.W6IKkqKRB3GM09iaD7h5NBR32dRGLT2', 'EMPLEADO', 'BRAYAN1617062024.jpg', 1, '2021-03-29 23:53:44', '2021-03-29 23:53:44'),
+(10, 'javier@gmail.com', '$2y$10$PSfbhsIidUMzKDEUW2O7qeJGhHxc4pPqRq53k9R.oKqhdJXCbgQyy', 'EMPLEADO', 'JAVIER1704651591.png', 1, '2024-01-07 18:19:51', '2024-01-07 18:19:51');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vacacions`
+-- Estructura de tabla para la tabla `vacacions`
 --
 
 CREATE TABLE `vacacions` (
@@ -595,7 +606,7 @@ CREATE TABLE `vacacions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `vacacions`
+-- Volcado de datos para la tabla `vacacions`
 --
 
 INSERT INTO `vacacions` (`id`, `empleado_id`, `fecha`, `fecha_registro`, `created_at`, `updated_at`) VALUES
@@ -607,50 +618,50 @@ INSERT INTO `vacacions` (`id`, `empleado_id`, `fecha`, `fecha_registro`, `create
 (9, 1, '2021-05-29', '2021-04-01', '2021-04-01 21:20:56', '2021-04-01 21:20:56');
 
 --
--- Indexes for dumped tables
+-- Índices para tablas volcadas
 --
 
 --
--- Indexes for table `actividads`
+-- Indices de la tabla `actividads`
 --
 ALTER TABLE `actividads`
   ADD PRIMARY KEY (`id`),
   ADD KEY `actividads_proyecto_id_foreign` (`proyecto_id`);
 
 --
--- Indexes for table `asistencias`
+-- Indices de la tabla `asistencias`
 --
 ALTER TABLE `asistencias`
   ADD PRIMARY KEY (`id`),
   ADD KEY `asistencias_empleado_id_foreign` (`empleado_id`);
 
 --
--- Indexes for table `clientes`
+-- Indices de la tabla `clientes`
 --
 ALTER TABLE `clientes`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `datos_usuarios`
+-- Indices de la tabla `datos_usuarios`
 --
 ALTER TABLE `datos_usuarios`
   ADD PRIMARY KEY (`id`),
   ADD KEY `datos_usuarios_user_id_foreign` (`user_id`);
 
 --
--- Indexes for table `departamentos`
+-- Indices de la tabla `departamentos`
 --
 ALTER TABLE `departamentos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `designacions`
+-- Indices de la tabla `designacions`
 --
 ALTER TABLE `designacions`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `empleados`
+-- Indices de la tabla `empleados`
 --
 ALTER TABLE `empleados`
   ADD PRIMARY KEY (`id`),
@@ -660,13 +671,13 @@ ALTER TABLE `empleados`
   ADD KEY `empleados_user_id_foreign` (`user_id`);
 
 --
--- Indexes for table `empresas`
+-- Indices de la tabla `empresas`
 --
 ALTER TABLE `empresas`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `examens`
+-- Indices de la tabla `examens`
 --
 ALTER TABLE `examens`
   ADD PRIMARY KEY (`id`),
@@ -675,7 +686,7 @@ ALTER TABLE `examens`
   ADD KEY `examens_designacion_id_foreign` (`designacion_id`);
 
 --
--- Indexes for table `examen_empleados`
+-- Indices de la tabla `examen_empleados`
 --
 ALTER TABLE `examen_empleados`
   ADD PRIMARY KEY (`id`),
@@ -683,26 +694,26 @@ ALTER TABLE `examen_empleados`
   ADD KEY `examen_empleados_empleado_id_foreign` (`empleado_id`);
 
 --
--- Indexes for table `horarios`
+-- Indices de la tabla `horarios`
 --
 ALTER TABLE `horarios`
   ADD PRIMARY KEY (`id`),
   ADD KEY `horarios_empleado_id_foreign` (`empleado_id`);
 
 --
--- Indexes for table `migrations`
+-- Indices de la tabla `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `preguntas`
+-- Indices de la tabla `preguntas`
 --
 ALTER TABLE `preguntas`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `proyectos`
+-- Indices de la tabla `proyectos`
 --
 ALTER TABLE `proyectos`
   ADD PRIMARY KEY (`id`),
@@ -710,7 +721,7 @@ ALTER TABLE `proyectos`
   ADD KEY `proyectos_lider_proyecto_foreign` (`lider_proyecto`);
 
 --
--- Indexes for table `proyecto_equipos`
+-- Indices de la tabla `proyecto_equipos`
 --
 ALTER TABLE `proyecto_equipos`
   ADD PRIMARY KEY (`id`),
@@ -718,173 +729,173 @@ ALTER TABLE `proyecto_equipos`
   ADD KEY `proyecto_equipos_empleado_id_foreign` (`empleado_id`);
 
 --
--- Indexes for table `razon_socials`
+-- Indices de la tabla `razon_socials`
 --
 ALTER TABLE `razon_socials`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `sueldos`
+-- Indices de la tabla `sueldos`
 --
 ALTER TABLE `sueldos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `sueldos_empleado_id_foreign` (`empleado_id`);
 
 --
--- Indexes for table `users`
+-- Indices de la tabla `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `vacacions`
+-- Indices de la tabla `vacacions`
 --
 ALTER TABLE `vacacions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `vacacions_empleado_id_foreign` (`empleado_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT for table `actividads`
+-- AUTO_INCREMENT de la tabla `actividads`
 --
 ALTER TABLE `actividads`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
--- AUTO_INCREMENT for table `asistencias`
+-- AUTO_INCREMENT de la tabla `asistencias`
 --
 ALTER TABLE `asistencias`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `clientes`
+-- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `datos_usuarios`
+-- AUTO_INCREMENT de la tabla `datos_usuarios`
 --
 ALTER TABLE `datos_usuarios`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `departamentos`
+-- AUTO_INCREMENT de la tabla `departamentos`
 --
 ALTER TABLE `departamentos`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `designacions`
+-- AUTO_INCREMENT de la tabla `designacions`
 --
 ALTER TABLE `designacions`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `empleados`
+-- AUTO_INCREMENT de la tabla `empleados`
 --
 ALTER TABLE `empleados`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `empresas`
+-- AUTO_INCREMENT de la tabla `empresas`
 --
 ALTER TABLE `empresas`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `examens`
+-- AUTO_INCREMENT de la tabla `examens`
 --
 ALTER TABLE `examens`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `examen_empleados`
+-- AUTO_INCREMENT de la tabla `examen_empleados`
 --
 ALTER TABLE `examen_empleados`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `horarios`
+-- AUTO_INCREMENT de la tabla `horarios`
 --
 ALTER TABLE `horarios`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `migrations`
+-- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
   MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
--- AUTO_INCREMENT for table `preguntas`
+-- AUTO_INCREMENT de la tabla `preguntas`
 --
 ALTER TABLE `preguntas`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT for table `proyectos`
+-- AUTO_INCREMENT de la tabla `proyectos`
 --
 ALTER TABLE `proyectos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `proyecto_equipos`
+-- AUTO_INCREMENT de la tabla `proyecto_equipos`
 --
 ALTER TABLE `proyecto_equipos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT for table `razon_socials`
+-- AUTO_INCREMENT de la tabla `razon_socials`
 --
 ALTER TABLE `razon_socials`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `sueldos`
+-- AUTO_INCREMENT de la tabla `sueldos`
 --
 ALTER TABLE `sueldos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `vacacions`
+-- AUTO_INCREMENT de la tabla `vacacions`
 --
 ALTER TABLE `vacacions`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- Constraints for dumped tables
+-- Restricciones para tablas volcadas
 --
 
 --
--- Constraints for table `actividads`
+-- Filtros para la tabla `actividads`
 --
 ALTER TABLE `actividads`
   ADD CONSTRAINT `actividads_proyecto_id_foreign` FOREIGN KEY (`proyecto_id`) REFERENCES `proyectos` (`id`);
 
 --
--- Constraints for table `asistencias`
+-- Filtros para la tabla `asistencias`
 --
 ALTER TABLE `asistencias`
   ADD CONSTRAINT `asistencias_empleado_id_foreign` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`);
 
 --
--- Constraints for table `datos_usuarios`
+-- Filtros para la tabla `datos_usuarios`
 --
 ALTER TABLE `datos_usuarios`
   ADD CONSTRAINT `datos_usuarios_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `empleados`
+-- Filtros para la tabla `empleados`
 --
 ALTER TABLE `empleados`
   ADD CONSTRAINT `empleados_departamento_id_foreign` FOREIGN KEY (`departamento_id`) REFERENCES `departamentos` (`id`),
@@ -893,7 +904,7 @@ ALTER TABLE `empleados`
   ADD CONSTRAINT `empleados_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `examens`
+-- Filtros para la tabla `examens`
 --
 ALTER TABLE `examens`
   ADD CONSTRAINT `examens_departamento_id_foreign` FOREIGN KEY (`departamento_id`) REFERENCES `departamentos` (`id`),
@@ -901,40 +912,40 @@ ALTER TABLE `examens`
   ADD CONSTRAINT `examens_empresa_id_foreign` FOREIGN KEY (`empresa_id`) REFERENCES `empresas` (`id`);
 
 --
--- Constraints for table `examen_empleados`
+-- Filtros para la tabla `examen_empleados`
 --
 ALTER TABLE `examen_empleados`
   ADD CONSTRAINT `examen_empleados_empleado_id_foreign` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`),
   ADD CONSTRAINT `examen_empleados_examen_id_foreign` FOREIGN KEY (`examen_id`) REFERENCES `examens` (`id`);
 
 --
--- Constraints for table `horarios`
+-- Filtros para la tabla `horarios`
 --
 ALTER TABLE `horarios`
   ADD CONSTRAINT `horarios_empleado_id_foreign` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`);
 
 --
--- Constraints for table `proyectos`
+-- Filtros para la tabla `proyectos`
 --
 ALTER TABLE `proyectos`
   ADD CONSTRAINT `proyectos_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`),
   ADD CONSTRAINT `proyectos_lider_proyecto_foreign` FOREIGN KEY (`lider_proyecto`) REFERENCES `empleados` (`id`);
 
 --
--- Constraints for table `proyecto_equipos`
+-- Filtros para la tabla `proyecto_equipos`
 --
 ALTER TABLE `proyecto_equipos`
   ADD CONSTRAINT `proyecto_equipos_empleado_id_foreign` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`),
   ADD CONSTRAINT `proyecto_equipos_proyecto_id_foreign` FOREIGN KEY (`proyecto_id`) REFERENCES `proyectos` (`id`);
 
 --
--- Constraints for table `sueldos`
+-- Filtros para la tabla `sueldos`
 --
 ALTER TABLE `sueldos`
   ADD CONSTRAINT `sueldos_empleado_id_foreign` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`);
 
 --
--- Constraints for table `vacacions`
+-- Filtros para la tabla `vacacions`
 --
 ALTER TABLE `vacacions`
   ADD CONSTRAINT `vacacions_empleado_id_foreign` FOREIGN KEY (`empleado_id`) REFERENCES `empleados` (`id`);
