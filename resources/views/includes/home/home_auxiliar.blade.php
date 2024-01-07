@@ -32,9 +32,6 @@
             </div>
         </div>
     </div>
-</div>
-
-<div class="row">
     <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-purple text-white text-center">
@@ -47,15 +44,18 @@
                             <option value="todos">Todos</option>
                             <option value="fecha">Fecha</option>
                             <option value="estado">Estado</option>
+                            <option value="pronostico">Pronóstico</option>
                         </select>
                     </div>
                     <div class="col-md-12 cont_filtro">
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="text" value="{{date('d/m/Y')}}" class="fecha_ini form-control datetimepicker">
+                                <input type="text" value="{{ date('d/m/Y') }}"
+                                    class="fecha_ini form-control datetimepicker">
                             </div>
                             <div class="col-md-6">
-                                <input type="text" value="{{date('d/m/Y')}}" class="fecha_fin form-control datetimepicker">
+                                <input type="text" value="{{ date('d/m/Y') }}"
+                                    class="fecha_fin form-control datetimepicker">
                             </div>
                         </div>
                     </div>
@@ -71,7 +71,6 @@
             </div>
         </div>
     </div>
-
     <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-info text-white text-center">
@@ -87,36 +86,38 @@
                             <option value="departamento">Departamento</option>
                             <option value="designacion">Designación</option>
                             <option value="empleado">Empleado</option>
+                            <option value="pronostico">Pronóstico</option>
                         </select>
                     </div>
                     <div class="col-md-12 cont_filtro">
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="text" value="{{date('d/m/Y')}}" class="form-control fecha_ini datetimepicker">
+                                <input type="text" value="{{ date('d/m/Y') }}"
+                                    class="form-control fecha_ini datetimepicker">
                             </div>
                             <div class="col-md-6">
-                                <input type="text" value="{{date('d/m/Y')}}" class="form-control fecha_fin datetimepicker">
+                                <input type="text" value="{{ date('d/m/Y') }}"
+                                    class="form-control fecha_fin datetimepicker">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('empresa',$array_empresas,null,['class'=>'select empresa'])}}
+                        {{ Form::select('empresa', $array_empresas, null, ['class' => 'select empresa']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('departamento',$array_departamentos,null,['class'=>'select departamento'])}}
+                        {{ Form::select('departamento', $array_departamentos, null, ['class' => 'select departamento']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('designacion',$array_designacions,null,['class'=>'select designacion'])}}
+                        {{ Form::select('designacion', $array_designacions, null, ['class' => 'select designacion']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('empleado',$array_empleados,null,['class'=>'select empleado'])}}
+                        {{ Form::select('empleado', $array_empleados, null, ['class' => 'select empleado']) }}
                     </div>
                 </div><br>
                 <div id="chart_horas_trabajo_empleados"></div>
             </div>
         </div>
     </div>
-
     <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-warning text-white text-center">
@@ -132,38 +133,38 @@
                             <option value="departamento">Departamento</option>
                             <option value="designacion">Designación</option>
                             <option value="empleado">Empleado</option>
+                            <option value="pronostico">Pronóstico</option>
                         </select>
                     </div>
                     <div class="col-md-12 cont_filtro">
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="text" value="{{date('d/m/Y')}}" class="form-control fecha_ini datetimepicker">
+                                <input type="text" value="{{ date('d/m/Y') }}"
+                                    class="form-control fecha_ini datetimepicker">
                             </div>
                             <div class="col-md-6">
-                                <input type="text" value="{{date('d/m/Y')}}" class="form-control fecha_fin datetimepicker">
+                                <input type="text" value="{{ date('d/m/Y') }}"
+                                    class="form-control fecha_fin datetimepicker">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('empresa',$array_empresas,null,['class'=>'select empresa'])}}
+                        {{ Form::select('empresa', $array_empresas, null, ['class' => 'select empresa']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('departamento',$array_departamentos,null,['class'=>'select departamento'])}}
+                        {{ Form::select('departamento', $array_departamentos, null, ['class' => 'select departamento']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('designacion',$array_designacions,null,['class'=>'select designacion'])}}
+                        {{ Form::select('designacion', $array_designacions, null, ['class' => 'select designacion']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('empleado',$array_empleados,null,['class'=>'select empleado'])}}
+                        {{ Form::select('empleado', $array_empleados, null, ['class' => 'select empleado']) }}
                     </div>
                 </div><br>
                 <div id="chart_total_ingresos"></div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="row">
     <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-success text-white text-center">
@@ -179,36 +180,38 @@
                             <option value="departamento">Departamento</option>
                             <option value="designacion">Designación</option>
                             <option value="empleado">Empleado</option>
+                            <option value="pronostico">Pronóstico</option>
                         </select>
                     </div>
                     <div class="col-md-12 cont_filtro">
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="text" value="{{date('d/m/Y')}}" class="form-control fecha_ini datetimepicker">
+                                <input type="text" value="{{ date('d/m/Y') }}"
+                                    class="form-control fecha_ini datetimepicker">
                             </div>
                             <div class="col-md-6">
-                                <input type="text" value="{{date('d/m/Y')}}" class="form-control fecha_fin datetimepicker">
+                                <input type="text" value="{{ date('d/m/Y') }}"
+                                    class="form-control fecha_fin datetimepicker">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('empresa',$array_empresas,null,['class'=>'select empresa'])}}
+                        {{ Form::select('empresa', $array_empresas, null, ['class' => 'select empresa']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('departamento',$array_departamentos,null,['class'=>'select departamento'])}}
+                        {{ Form::select('departamento', $array_departamentos, null, ['class' => 'select departamento']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('designacion',$array_designacions,null,['class'=>'select designacion'])}}
+                        {{ Form::select('designacion', $array_designacions, null, ['class' => 'select designacion']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('empleado',$array_empleados,null,['class'=>'select empleado'])}}
+                        {{ Form::select('empleado', $array_empleados, null, ['class' => 'select empleado']) }}
                     </div>
                 </div><br>
                 <div id="chart_examen_capacitacion"></div>
             </div>
         </div>
     </div>
-
     <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-danger text-white text-center">
@@ -224,36 +227,38 @@
                             <option value="departamento">Departamento</option>
                             <option value="designacion">Designación</option>
                             <option value="empleado">Empleado</option>
+                            <option value="pronostico">Pronóstico</option>
                         </select>
                     </div>
                     <div class="col-md-12 cont_filtro">
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="text" value="{{date('d/m/Y')}}" class="form-control fecha_ini datetimepicker">
+                                <input type="text" value="{{ date('d/m/Y') }}"
+                                    class="form-control fecha_ini datetimepicker">
                             </div>
                             <div class="col-md-6">
-                                <input type="text" value="{{date('d/m/Y')}}" class="form-control fecha_fin datetimepicker">
+                                <input type="text" value="{{ date('d/m/Y') }}"
+                                    class="form-control fecha_fin datetimepicker">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('empresa',$array_empresas,null,['class'=>'select empresa'])}}
+                        {{ Form::select('empresa', $array_empresas, null, ['class' => 'select empresa']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('departamento',$array_departamentos,null,['class'=>'select departamento'])}}
+                        {{ Form::select('departamento', $array_departamentos, null, ['class' => 'select departamento']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('designacion',$array_designacions,null,['class'=>'select designacion'])}}
+                        {{ Form::select('designacion', $array_designacions, null, ['class' => 'select designacion']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('empleado',$array_empleados,null,['class'=>'select empleado'])}}
+                        {{ Form::select('empleado', $array_empleados, null, ['class' => 'select empleado']) }}
                     </div>
                 </div><br>
                 <div id="chart_asistencia_empleados"></div>
             </div>
         </div>
     </div>
-
     <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-purple text-white text-center">
@@ -271,25 +276,22 @@
                         </select>
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('empresa',$array_empresas,null,['class'=>'select empresa'])}}
+                        {{ Form::select('empresa', $array_empresas, null, ['class' => 'select empresa']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('departamento',$array_departamentos,null,['class'=>'select departamento'])}}
+                        {{ Form::select('departamento', $array_departamentos, null, ['class' => 'select departamento']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('designacion',$array_designacions,null,['class'=>'select designacion'])}}
+                        {{ Form::select('designacion', $array_designacions, null, ['class' => 'select designacion']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('proyecto',$array_proyectos,null,['class'=>'select proyecto'])}}
+                        {{ Form::select('proyecto', $array_proyectos, null, ['class' => 'select proyecto']) }}
                     </div>
                 </div><br>
                 <div id="chart_progreso_proyectos"></div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="row">
     <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-info text-white text-center">
@@ -303,30 +305,32 @@
                             <option value="fecha">Fecha</option>
                             <option value="proyecto">Proyecto</option>
                             <option value="empleado">Empleado</option>
+                            <option value="pronostico">Pronóstico</option>
                         </select>
                     </div>
                     <div class="col-md-12 cont_filtro">
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="text" value="{{date('d/m/Y')}}" class="form-control fecha_ini datetimepicker">
+                                <input type="text" value="{{ date('d/m/Y') }}"
+                                    class="form-control fecha_ini datetimepicker">
                             </div>
                             <div class="col-md-6">
-                                <input type="text" value="{{date('d/m/Y')}}" class="form-control fecha_fin datetimepicker">
+                                <input type="text" value="{{ date('d/m/Y') }}"
+                                    class="form-control fecha_fin datetimepicker">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('proyecto',$array_proyectos,null,['class'=>'select proyecto'])}}
+                        {{ Form::select('proyecto', $array_proyectos, null, ['class' => 'select proyecto']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('empleado',$array_empleados,null,['class'=>'select empleado'])}}
+                        {{ Form::select('empleado', $array_empleados, null, ['class' => 'select empleado']) }}
                     </div>
                 </div><br>
                 <div id="chart_ganancia_empleados"></div>
             </div>
         </div>
     </div>
-
     <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-warning text-white text-center">
@@ -342,29 +346,32 @@
                             <option value="departamento">Departamento</option>
                             <option value="designacion">Designación</option>
                             <option value="empleado">Empleado</option>
+                            <option value="pronostico">Pronóstico</option>
                         </select>
                     </div>
                     <div class="col-md-12 cont_filtro">
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="text" value="{{date('d/m/Y')}}" class="form-control fecha_ini datetimepicker">
+                                <input type="text" value="{{ date('d/m/Y') }}"
+                                    class="form-control fecha_ini datetimepicker">
                             </div>
                             <div class="col-md-6">
-                                <input type="text" value="{{date('d/m/Y')}}" class="form-control fecha_fin datetimepicker">
+                                <input type="text" value="{{ date('d/m/Y') }}"
+                                    class="form-control fecha_fin datetimepicker">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('empresa',$array_empresas,null,['class'=>'select empresa'])}}
+                        {{ Form::select('empresa', $array_empresas, null, ['class' => 'select empresa']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('departamento',$array_departamentos,null,['class'=>'select departamento'])}}
+                        {{ Form::select('departamento', $array_departamentos, null, ['class' => 'select departamento']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('designacion',$array_designacions,null,['class'=>'select designacion'])}}
+                        {{ Form::select('designacion', $array_designacions, null, ['class' => 'select designacion']) }}
                     </div>
                     <div class="col-md-12 cont_filtro">
-                        {{Form::select('empleado',$array_empleados,null,['class'=>'select empleado'])}}
+                        {{ Form::select('empleado', $array_empleados, null, ['class' => 'select empleado']) }}
                     </div>
                 </div><br>
                 <div id="chat_progreso_actividades"></div>

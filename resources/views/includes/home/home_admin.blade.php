@@ -43,9 +43,6 @@
             </div>
         </div>
     </div>
-</div>
-
-<div class="row">
     {{-- <div class="col-md-4">
         <div class="card">
             <div class="card-header bg-purple text-white text-center">
@@ -127,9 +124,6 @@
             </div>
         </div>
     </div> --}}
-</div>
-
-<div class="row">
     {{-- <div class="col-md-4">
         <div class="card">
             <div class="card-header bg-success text-white text-center">
@@ -269,6 +263,7 @@
                             <option value="departamento">Departamento</option>
                             <option value="designacion">Designación</option>
                             <option value="empleado">Empleado</option>
+                            <option value="pronostico">Pronóstico</option>
                         </select>
                     </div>
                     <div class="col-md-12 cont_filtro">
@@ -300,10 +295,7 @@
             </div>
         </div>
     </div>
-</div>
-
-{{-- <div class="row">
-    <div class="col-md-4">
+    {{-- <div class="col-md-4">
         <div class="card">
             <div class="card-header bg-info text-white text-center">
                 <span class="card-title text-white">Ganancia de Empleados</span>
@@ -339,7 +331,6 @@
             </div>
         </div>
     </div>
-
     <div class="col-md-4">
         <div class="card">
             <div class="card-header bg-warning text-white text-center">
@@ -383,5 +374,5 @@
                 <div id="chat_progreso_actividades"></div>
             </div>
         </div>
-    </div>
-</div> --}}
+    </div> --}}
+</div>

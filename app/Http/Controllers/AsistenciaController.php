@@ -72,9 +72,13 @@ class AsistenciaController extends Controller
         $p_asistencia = Asistencia::first();
         $u_asistencia = Asistencia::get()->last();
         $array_anios[date('Y')] = date('Y');
+        $anio_actual = date("Y");
         if ($p_asistencia) {
             $p_anio = date('Y', strtotime($p_asistencia->fecha));
             $u_anio = date('Y', strtotime($u_asistencia->fecha));
+            if ($u_anio < $anio_actual) {
+                $u_anio = $anio_actual;
+            }
             $array_anios = [];
             for ($i = $p_anio; $i <= $u_anio; $i++) {
                 $array_anios[$i] = $i;
@@ -88,15 +92,18 @@ class AsistenciaController extends Controller
         $p_asistencia = Asistencia::first();
         $u_asistencia = Asistencia::get()->last();
         $array_anios[date('Y')] = date('Y');
+        $anio_actual = date("Y");
         if ($p_asistencia) {
             $p_anio = date('Y', strtotime($p_asistencia->fecha));
             $u_anio = date('Y', strtotime($u_asistencia->fecha));
+            if ($u_anio < $anio_actual) {
+                $u_anio = $anio_actual;
+            }
             $array_anios = [];
             for ($i = $p_anio; $i <= $u_anio; $i++) {
                 $array_anios[$i] = $i;
             }
         }
-
         return view('asistencias.asistencias_empleado', compact('empleado', 'array_anios'));
     }
 
