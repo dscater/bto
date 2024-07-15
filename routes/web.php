@@ -250,21 +250,21 @@ Route::middleware(['auth'])->group(function () {
     Route::get('vacacions/fechas_vacacions/{empleado}', 'VacacionController@fechas_vacacions')->name('vacacions.fechas_vacacions');
 
     // KPI'S
-    Route::get('kpis/cantidad_empleados', 'KPIController@cantidad_empleados')->name('kpis.cantidad_empleados');
+    Route::get('kpis/cantidad_empleados', 'MachineLearningController@cantidad_empleados')->name('kpis.cantidad_empleados');
 
-    Route::get('kpis/horas_trabajadas_empleados', 'KPIController@horas_trabajadas_empleados')->name('kpis.horas_trabajadas_empleados');
+    Route::get('kpis/horas_trabajadas_empleados', 'MachineLearningController@horas_trabajadas_empleados')->name('kpis.horas_trabajadas_empleados');
 
-    Route::get('kpis/ingresos_economicos', 'KPIController@ingresos_economicos')->name('kpis.ingresos_economicos');
+    Route::get('kpis/ingresos_economicos', 'MachineLearningController@ingresos_economicos')->name('kpis.ingresos_economicos');
 
-    Route::get('kpis/capacitacion_examen', 'KPIController@capacitacion_examen')->name('kpis.capacitacion_examen');
+    Route::get('kpis/capacitacion_examen', 'MachineLearningController@capacitacion_examen')->name('kpis.capacitacion_examen');
 
-    Route::get('kpis/asistencia_empleados', 'KPIController@asistencia_empleados')->name('kpis.asistencia_empleados');
+    Route::get('kpis/asistencia_empleados', 'MachineLearningController@asistencia_empleados')->name('kpis.asistencia_empleados');
 
-    Route::get('kpis/progreso_proyectos', 'KPIController@progreso_proyectos')->name('kpis.progreso_proyectos');
+    Route::get('kpis/progreso_proyectos', 'MachineLearningController@progreso_proyectos')->name('kpis.progreso_proyectos');
 
-    Route::get('kpis/ganancia_empleados', 'KPIController@ganancia_empleados')->name('kpis.ganancia_empleados');
+    Route::get('kpis/ganancia_empleados', 'MachineLearningController@ganancia_empleados')->name('kpis.ganancia_empleados');
 
-    Route::get('kpis/progreso_actividades', 'KPIController@progreso_actividades')->name('kpis.progreso_actividades');
+    Route::get('kpis/progreso_actividades', 'MachineLearningController@progreso_actividades')->name('kpis.progreso_actividades');
 
     // REPORTES
     Route::get('reportes', 'ReporteController@index')->name('reportes.index');

@@ -9,14 +9,66 @@ use App\Actividad;
 use App\Asistencia;
 use App\Horario;
 use App\Empleado;
+use Phpml\Regression\LeastSquares;
 use App\Proyecto;
 use App\Examen;
 use App\ExamenEmpleado;
 use DateTime;
 use Illuminate\Support\Facades\Log;
 
-class KPIController extends Controller
+class MachineLearningController extends Controller
 {
+    // USANDO LA LIBRERIA php-ai/php-ml
+    public function trainModel()
+    {
+        $empleados = Empleado::all();
+
+        $samples = [];
+        $targets = [];
+
+        foreach ($empleados as $empleado) {
+            $samples[] = [$empleado->cantidad_horas_trabajadas];
+            $targets[] = $empleado->ganancias;
+        }
+
+        $regression = new LeastSquares();
+        $regression->train($samples, $targets);
+
+        file_put_contents(storage_path('app/regression_model.json'), json_encode($regression));
+
+        return true;
+    }
+
+    public function predictGanancias($cantidad_horas_trabajadas)
+    {
+        $cantidadHorasTrabajadas = $cantidad_horas_trabajadas;
+
+        $regression = new LeastSquares();
+        $modelData = json_decode(file_get_contents(storage_path('app/regression_model.json')), true);
+        $regression->setCoefficients($modelData['coefficients']);
+        $regression->setIntercept($modelData['intercept']);
+
+        $predictedGanancias = $regression->predict([$cantidadHorasTrabajadas]);
+
+        return response()->json(['predicted_ganancias' => $predictedGanancias]);
+    }
+
+    public function getStatistics()
+    {
+        $empleados = Empleado::all();
+        $statistics = [];
+
+        foreach ($empleados as $empleado) {
+            $statistics[] = [
+                'empleado_id' => $empleado->id,
+                'cantidad_horas_trabajadas' => $empleado->cantidad_horas_trabajadas,
+                'ganancias' => $empleado->ganancias,
+            ];
+        }
+
+        return response()->json($statistics);
+    }
+
     public function cantidad_empleados(Request $request)
     {
         $filtro = $request->filtro;
