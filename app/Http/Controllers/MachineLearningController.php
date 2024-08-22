@@ -9,232 +9,117 @@ use App\Actividad;
 use App\Asistencia;
 use App\Horario;
 use App\Empleado;
+// Cargamos el archivo "LeastSquares" de "Phpml" para realizar los calculos
 use Phpml\Regression\LeastSquares;
 use App\Proyecto;
 use App\Examen;
 use App\ExamenEmpleado;
 use DateTime;
-use Illuminate\Support\Facades\Log;
 
 class MachineLearningController extends Controller
 {
-    // USANDO LA LIBRERIA php-ai/php-ml
-    public function trainModel()
+    // Función para entrenar el modelo
+    public function trainModel($modelo)
     {
         $empleados = Empleado::all();
-
+        $proyectos = Proyecto::all();
+        $examens = Examen::all();
+        $asistencias = Asistencia::all();
+        $actividades = Actividad::all();
         $samples = [];
         $targets = [];
 
-        foreach ($empleados as $empleado) {
-            $samples[] = [$empleado->cantidad_horas_trabajadas];
-            $targets[] = $empleado->ganancias;
+        // Llenar samples y targets basado en el modelo
+        switch ($modelo) {
+            case 'cantidad_empleados':
+                // datos para determinar la cantidad de empleados
+                foreach ($empleados as $empleado) {
+                    $samples[] = [count($empleado->asistencias), count($empleados)];
+                    $targets[] = count($empleados);
+                }
+                break;
+            case 'tiempo_productividad_laboral':
+                // datos para determinar la productividad laboral
+                foreach ($empleados as $empleado) {
+                    $samples[] = [count($empleado->asistencias), count($asistencias)];
+                    $targets[] = $empleado->total_asistencias - $empleado->total_faltas;
+                }
+                break;
+            case 'ingresos_economicos':
+                // datos para determinar los ingresos economicos
+                foreach ($proyectos as $proyecto) {
+                    $samples[] = [$proyecto->tarifa, count($proyectos)];
+                    $targets[] = $proyecto->ingresos_economicos;
+                }
+                break;
+            case 'capacitacion':
+                // datos para determinar la capacitacion
+                foreach ($empleados as $empleado) {
+                    $examens_empleado = ExamenEmpleado::where("empleado_id", $empleado->id)->get();
+                    $samples[] = [count($examens_empleado), count($examens)];
+                    $targets[] = $empleado->capacitacion;
+                }
+                break;
+            case 'asistencia':
+                // datos para deternimar la asistencia
+                foreach ($empleados as $empleado) {
+                    $samples[] = [count($empleado->asistencias), count($asistencias)];
+                    $targets[] = $empleado->total_asistencias - $empleado->total_faltas;
+                }
+                break;
+            case 'ganancia_empleados':
+                // datos para determninar la ganancia de empleados
+                foreach ($empleados as $empleado) {
+                    $samples[] = [$empleado->cantidad_horas_trabajadas, $empleado->tiempo_productividad_laboral];
+                    $targets[] = $empleado->ganancias;
+                }
+                break;
+            case 'cantidad_progreso_actividades':
+                // cantidad de progreso de actividades de empleados
+                foreach ($empleados as $empleado) {
+                    $samples[] = [count($empleado->asistencias), count($actividades)];
+                    $targets[] = $empleado->cantidad_progreso_actividades;
+                }
+                break;
+            default:
+                throw new \Exception('Modelo no reconocido');
         }
 
+        // Entrenar el modelo
         $regression = new LeastSquares();
         $regression->train($samples, $targets);
 
-        file_put_contents(storage_path('app/regression_model.json'), json_encode($regression));
+        // Guardar el modelo como JSON
+        $modelData = [
+            'coefficients' => $regression->getCoefficients(),
+            'intercept' => $regression->getIntercept()
+        ];
+
+        file_put_contents(storage_path("app/{$modelo}_model.json"), json_encode($modelData));
 
         return true;
     }
 
-    public function predictGanancias($cantidad_horas_trabajadas)
+    // Función para predecir usando un modelo específico
+    public function predictt($modelo, $input)
     {
-        $cantidadHorasTrabajadas = $cantidad_horas_trabajadas;
-
-        $regression = new LeastSquares();
-        $modelData = json_decode(file_get_contents(storage_path('app/regression_model.json')), true);
-        $regression->setCoefficients($modelData['coefficients']);
-        $regression->setIntercept($modelData['intercept']);
-
-        $predictedGanancias = $regression->predict([$cantidadHorasTrabajadas]);
-
-        return response()->json(['predicted_ganancias' => $predictedGanancias]);
-    }
-
-    public function getStatistics()
-    {
-        $empleados = Empleado::all();
-        $statistics = [];
-
-        foreach ($empleados as $empleado) {
-            $statistics[] = [
-                'empleado_id' => $empleado->id,
-                'cantidad_horas_trabajadas' => $empleado->cantidad_horas_trabajadas,
-                'ganancias' => $empleado->ganancias,
-            ];
+        $modelFile = storage_path("app/{$modelo}_model.json");
+        if (!file_exists($modelFile)) {
+            throw new \Exception('Modelo no entrenado');
         }
 
-        return response()->json($statistics);
-    }
+        $modelData = json_decode(file_get_contents($modelFile), true);
 
-    public function cantidad_empleados(Request $request)
-    {
-        $filtro = $request->filtro;
-        $fecha_ini = \str_replace('/', '-', $request->fecha_ini);
-        $fecha_fin = \str_replace('/', '-', $request->fecha_fin);
-        $fecha_ini = date('Y-m-d', \strtotime($fecha_ini));
-        $fecha_fin = date('Y-m-d', \strtotime($fecha_fin));
+        $coefficients = $modelData['coefficients'];
+        $intercept = $modelData['intercept'];
 
-        $estado = $request->estado;
-
-        $empleados = count(Empleado::select('empleados.*')
-            ->join('users', 'users.id', '=', 'empleados.user_id')
-            ->where('users.estado', 1)
-            ->get());
-        if ($filtro != 'todos') {
-            switch ($filtro) {
-                case 'fecha':
-                    $empleados = count(Empleado::select('empleados.*')
-                        ->join('users', 'users.id', '=', 'empleados.user_id')
-                        ->where('users.estado', 1)
-                        ->whereBetween('empleados.fecha_registro', [$fecha_ini, $fecha_fin])
-                        ->get());
-                    break;
-                case 'pronostico':
-                    $fechas1 = ["", ""];
-                    $fechas2 = ["", ""];
-                    $fechas3 = ["", ""];
-
-                    // obtener las fechas de pronostico
-                    $fechas_pronostico = self::getFechasPronostico();
-                    $fechas1 = $fechas_pronostico["fechas1"];
-                    $fechas2 = $fechas_pronostico["fechas2"];
-                    $fechas3 = $fechas_pronostico["fechas3"];
-
-                    $empleados1 = Empleado::select('empleados.*')
-                        ->join('users', 'users.id', '=', 'empleados.user_id')
-                        ->where('users.estado', 1)
-                        ->whereBetween('empleados.fecha_registro', [$fechas1[0], $fechas1[1]])
-                        ->get();
-                    $empleados2 = Empleado::select('empleados.*')
-                        ->join('users', 'users.id', '=', 'empleados.user_id')
-                        ->where('users.estado', 1)
-                        ->whereBetween('empleados.fecha_registro', [$fechas2[0], $fechas2[1]])
-                        ->get();
-                    $empleados3 = Empleado::select('empleados.*')
-                        ->join('users', 'users.id', '=', 'empleados.user_id')
-                        ->where('users.estado', 1)
-                        ->whereBetween('empleados.fecha_registro', [$fechas3[0], $fechas3[1]])
-                        ->get();
-
-                    $total = count($empleados1) + count($empleados2) + count($empleados3);
-                    $total = $total / 3;
-                    $empleados = number_format($total, 2, ".", "");
-                    break;
-                case 'estado':
-                    if ($estado != 'todos') {
-                        $empleados = count(Empleado::select('empleados.*')
-                            ->join('users', 'users.id', '=', 'empleados.user_id')
-                            ->where('users.estado', 1)
-                            ->where('empleados.estado', $estado)
-                            ->get());
-                        break;
-                    }
-            }
-        }
-        return response()->JSON([
-            'sw' => true,
-            'cantidad_empleados' => $empleados
-        ]);
-    }
-
-    public function horas_trabajadas_empleados(Request $request)
-    {
-        $filtro = $request->filtro;
-        $fecha_ini = \str_replace('/', '-', $request->fecha_ini);
-        $fecha_fin = \str_replace('/', '-', $request->fecha_fin);
-        $fecha_ini = date('Y-m-d', \strtotime($fecha_ini));
-        $fecha_fin = date('Y-m-d', \strtotime($fecha_fin));
-        $empresa = $request->empresa;
-        $departamento = $request->departamento;
-        $designacion = $request->designacion;
-        $empleado = $request->empleado;
-
-        $asistencias = Asistencia::select('asistencias.*')
-            ->join('empleados', 'empleados.id', '=', 'asistencias.empleado_id')
-            ->join('users', 'users.id', '=', 'empleados.user_id')
-            ->where('users.estado', 1)
-            ->get();
-
-        if ($filtro != 'todos') {
-            switch ($filtro) {
-                case 'fecha':
-                    $asistencias = Asistencia::whereBetween('fecha', [$fecha_ini, $fecha_fin])->get();
-                    break;
-                case 'empresa':
-                    if ($empresa != 'todos') {
-                        $asistencias = Asistencia::select('asistencias.*')
-                            ->join('empleados', 'empleados.id', '=', 'asistencias.empleado_id')
-                            ->join('users', 'users.id', '=', 'empleados.user_id')
-                            ->where('users.estado', 1)
-                            ->where('empleados.empresa_id', $empresa)
-                            ->get();
-                    }
-                    break;
-                case 'departamento':
-                    if ($departamento != 'todos') {
-                        $asistencias = Asistencia::select('asistencias.*')
-                            ->join('empleados', 'empleados.id', '=', 'asistencias.empleado_id')
-                            ->join('users', 'users.id', '=', 'empleados.user_id')
-                            ->where('users.estado', 1)
-                            ->where('empleados.departamento_id', $departamento)
-                            ->get();
-                    }
-                    break;
-                case 'designacion':
-                    if ($designacion != 'todos') {
-                        $asistencias = Asistencia::select('asistencias.*')
-                            ->join('empleados', 'empleados.id', '=', 'asistencias.empleado_id')
-                            ->join('users', 'users.id', '=', 'empleados.user_id')
-                            ->where('users.estado', 1)
-                            ->where('empleados.designacion_id', $designacion)
-                            ->get();
-                    }
-                    break;
-                case 'empleado':
-                    if ($empleado != 'todos') {
-                        $asistencias = Asistencia::select('asistencias.*')
-                            ->join('empleados', 'empleados.id', '=', 'asistencias.empleado_id')
-                            ->join('users', 'users.id', '=', 'empleados.user_id')
-                            ->where('users.estado', 1)
-                            ->where('empleados.id', $empleado)
-                            ->get();
-                    }
-                    break;
-            }
+        // Calcular la predicción usando el modelo lineal
+        $prediction = $intercept;
+        foreach ($input as $key => $value) {
+            $prediction += $coefficients[$key] * $value;
         }
 
-        if ($filtro == 'pronostico') {
-            $fechas1 = ["", ""];
-            $fechas2 = ["", ""];
-            $fechas3 = ["", ""];
-
-            // obtener las fechas de pronostico
-            $fechas_pronostico = self::getFechasPronostico();
-            $fechas1 = $fechas_pronostico["fechas1"];
-            $fechas2 = $fechas_pronostico["fechas2"];
-            $fechas3 = $fechas_pronostico["fechas3"];
-
-            $asistencias1 = Asistencia::whereBetween('fecha', [$fechas1[0], $fechas1[1]])->get();
-            $asistencias2 = Asistencia::whereBetween('fecha', [$fechas2[0], $fechas2[1]])->get();
-            $asistencias3 = Asistencia::whereBetween('fecha', [$fechas3[0], $fechas3[1]])->get();
-
-            $cantidad_horas1 = self::getHorasTrabajadas($asistencias1);
-            $cantidad_horas2 = self::getHorasTrabajadas($asistencias2);
-            $cantidad_horas3 = self::getHorasTrabajadas($asistencias3);
-
-            $cantidad_horas = ($cantidad_horas1 + $cantidad_horas2 + $cantidad_horas3) / 3;
-            $cantidad_horas = number_format($cantidad_horas, 2, ".", "");
-        } else {
-            $cantidad_horas = self::getHorasTrabajadas($asistencias);
-        }
-
-        return response()->JSON([
-            'sw' => true,
-            'cantidad_horas' => $cantidad_horas
-        ]);
+        return $prediction;
     }
 
     public function ingresos_economicos(Request $request)
@@ -294,16 +179,27 @@ class MachineLearningController extends Controller
                     break;
             }
         }
-        if ($filtro == 'pronostico') {
+
+        if ($filtro == 'prediccion') {
+            // entrenar el modelo
+            $this->trainModel("ingresos_economicos");
+            // cargar los datos de prediccion
+            foreach ($proyectos as $proyecto) {
+                $input[] = [$proyecto->tarifa, count($proyectos)];
+            }
+            // obtener el resultado del modelo
+            $total_ingresos = $this->predict("ingresos_economicos", $input);
+        } elseif ($filtro == 'fechasp') {
+
             $fechas1 = ["", ""];
             $fechas2 = ["", ""];
             $fechas3 = ["", ""];
 
-            // obtener las fechas de pronostico
-            $fechas_pronostico = self::getFechasPronostico();
-            $fechas1 = $fechas_pronostico["fechas1"];
-            $fechas2 = $fechas_pronostico["fechas2"];
-            $fechas3 = $fechas_pronostico["fechas3"];
+            // obtener las fechas de fechasp
+            $fechas_fechasp = self::getFechasPronostico();
+            $fechas1 = $fechas_fechasp["fechas1"];
+            $fechas2 = $fechas_fechasp["fechas2"];
+            $fechas3 = $fechas_fechasp["fechas3"];
 
             $proyectos1 = Proyecto::where('estado', 1)->whereBetween('fecha_registro', [$fechas1[0], $fechas1[1]])->get();
             $proyectos2 = Proyecto::where('estado', 1)->whereBetween('fecha_registro', [$fechas2[0], $fechas2[1]])->get();
@@ -323,6 +219,7 @@ class MachineLearningController extends Controller
                 $total_ingresos3 += (float)$value->tarifa;
             }
 
+            // dividirlo en 3 meses
             $total_ingresos = ($total_ingresos1 + $total_ingresos2 + $total_ingresos3) / 3;
         } else {
             $total_ingresos = 0;
@@ -337,6 +234,198 @@ class MachineLearningController extends Controller
         ]);
     }
 
+    public function cantidad_empleados(Request $request)
+    {
+        $filtro = $request->filtro;
+        $fecha_ini = \str_replace('/', '-', $request->fecha_ini);
+        $fecha_fin = \str_replace('/', '-', $request->fecha_fin);
+        $fecha_ini = date('Y-m-d', \strtotime($fecha_ini));
+        $fecha_fin = date('Y-m-d', \strtotime($fecha_fin));
+        $empleadosl = Empleado::all();
+        $estado = $request->estado;
+
+        $empleados = count(Empleado::select('empleados.*')
+            ->join('users', 'users.id', '=', 'empleados.user_id')
+            ->where('users.estado', 1)
+            ->get());
+        if ($filtro != 'todos') {
+            switch ($filtro) {
+                case 'fecha':
+                    $empleados = count(Empleado::select('empleados.*')
+                        ->join('users', 'users.id', '=', 'empleados.user_id')
+                        ->where('users.estado', 1)
+                        ->whereBetween('empleados.fecha_registro', [$fecha_ini, $fecha_fin])
+                        ->get());
+                    break;
+                case 'prediccion':
+                    // entrenar el modelo
+                    $this->trainModel("cantidad_empleados");
+                    // cargar los datos de prediccion
+                    $input = [];
+                    foreach ($empleadosl as $empleado) {
+                        $input[] = [count($empleado->asistencias), count($empleadosl)];
+                    }
+                    // obtener el resultado del modelo
+                    $empleados = $this->predict("cantidad_empleados", $input);
+                    break;
+                case 'fechasp':
+                    $fechas1 = ["", ""];
+                    $fechas2 = ["", ""];
+                    $fechas3 = ["", ""];
+
+                    // obtener las fechas de fechasp
+                    $fechas_fechasp = self::getFechasPronostico();
+                    $fechas1 = $fechas_fechasp["fechas1"];
+                    $fechas2 = $fechas_fechasp["fechas2"];
+                    $fechas3 = $fechas_fechasp["fechas3"];
+
+                    $empleados1 = Empleado::select('empleados.*')
+                        ->join('users', 'users.id', '=', 'empleados.user_id')
+                        ->where('users.estado', 1)
+                        ->whereBetween('empleados.fecha_registro', [$fechas1[0], $fechas1[1]])
+                        ->get();
+                    $empleados2 = Empleado::select('empleados.*')
+                        ->join('users', 'users.id', '=', 'empleados.user_id')
+                        ->where('users.estado', 1)
+                        ->whereBetween('empleados.fecha_registro', [$fechas2[0], $fechas2[1]])
+                        ->get();
+                    $empleados3 = Empleado::select('empleados.*')
+                        ->join('users', 'users.id', '=', 'empleados.user_id')
+                        ->where('users.estado', 1)
+                        ->whereBetween('empleados.fecha_registro', [$fechas3[0], $fechas3[1]])
+                        ->get();
+                    $total = count($empleados1) + count($empleados2) + count($empleados3);
+                    $total = $total / 3;
+                    $empleados = number_format($total, 2, ".", "");
+                    break;
+                case 'estado':
+                    if ($estado != 'todos') {
+                        $empleados = count(Empleado::select('empleados.*')
+                            ->join('users', 'users.id', '=', 'empleados.user_id')
+                            ->where('users.estado', 1)
+                            ->where('empleados.estado', $estado)
+                            ->get());
+                        break;
+                    }
+            }
+        }
+        return response()->JSON([
+            'sw' => true,
+            'cantidad_empleados' => $empleados
+        ]);
+    }
+
+    // productividad laboral
+    public function horas_trabajadas_empleados(Request $request)
+    {
+        $filtro = $request->filtro;
+        $fecha_ini = \str_replace('/', '-', $request->fecha_ini);
+        $fecha_fin = \str_replace('/', '-', $request->fecha_fin);
+        $fecha_ini = date('Y-m-d', \strtotime($fecha_ini));
+        $fecha_fin = date('Y-m-d', \strtotime($fecha_fin));
+        $empresa = $request->empresa;
+        $departamento = $request->departamento;
+        $designacion = $request->designacion;
+        $empleado = $request->empleado;
+
+        $empleados = Empleado::all();
+        $asistencias = Asistencia::select('asistencias.*')
+            ->join('empleados', 'empleados.id', '=', 'asistencias.empleado_id')
+            ->join('users', 'users.id', '=', 'empleados.user_id')
+            ->where('users.estado', 1)
+            ->get();
+
+        if ($filtro != 'todos') {
+            switch ($filtro) {
+                case 'fecha':
+                    $asistencias = Asistencia::whereBetween('fecha', [$fecha_ini, $fecha_fin])->get();
+                    break;
+                case 'empresa':
+                    if ($empresa != 'todos') {
+                        $asistencias = Asistencia::select('asistencias.*')
+                            ->join('empleados', 'empleados.id', '=', 'asistencias.empleado_id')
+                            ->join('users', 'users.id', '=', 'empleados.user_id')
+                            ->where('users.estado', 1)
+                            ->where('empleados.empresa_id', $empresa)
+                            ->get();
+                    }
+                    break;
+                case 'departamento':
+                    if ($departamento != 'todos') {
+                        $asistencias = Asistencia::select('asistencias.*')
+                            ->join('empleados', 'empleados.id', '=', 'asistencias.empleado_id')
+                            ->join('users', 'users.id', '=', 'empleados.user_id')
+                            ->where('users.estado', 1)
+                            ->where('empleados.departamento_id', $departamento)
+                            ->get();
+                    }
+                    break;
+                case 'designacion':
+                    if ($designacion != 'todos') {
+                        $asistencias = Asistencia::select('asistencias.*')
+                            ->join('empleados', 'empleados.id', '=', 'asistencias.empleado_id')
+                            ->join('users', 'users.id', '=', 'empleados.user_id')
+                            ->where('users.estado', 1)
+                            ->where('empleados.designacion_id', $designacion)
+                            ->get();
+                    }
+                    break;
+                case 'empleado':
+                    if ($empleado != 'todos') {
+                        $asistencias = Asistencia::select('asistencias.*')
+                            ->join('empleados', 'empleados.id', '=', 'asistencias.empleado_id')
+                            ->join('users', 'users.id', '=', 'empleados.user_id')
+                            ->where('users.estado', 1)
+                            ->where('empleados.id', $empleado)
+                            ->get();
+                    }
+                    break;
+            }
+        }
+
+        if ($filtro == 'prediccion') {
+            $asistencias = Asistencia::all();
+            // entrenar el modelo
+            $this->trainModel("tiempo_productividad_laboral");
+            // cargar los datos de prediccion
+            $input = [];
+            foreach ($empleados as $empleado) {
+                $input[] = [count($empleado->asistencias), count($asistencias)];
+            }
+            // obtener el resultado del modelo
+            $cantidad_horas = $this->predict("tiempo_productividad_laboral", $input);
+        } elseif ($filtro == 'fechasp') {
+            $fechas1 = ["", ""];
+            $fechas2 = ["", ""];
+            $fechas3 = ["", ""];
+
+            // obtener las fechas de fechasp
+            $fechas_fechasp = self::getFechasPronostico();
+            $fechas1 = $fechas_fechasp["fechas1"];
+            $fechas2 = $fechas_fechasp["fechas2"];
+            $fechas3 = $fechas_fechasp["fechas3"];
+
+            $asistencias1 = Asistencia::whereBetween('fecha', [$fechas1[0], $fechas1[1]])->get();
+            $asistencias2 = Asistencia::whereBetween('fecha', [$fechas2[0], $fechas2[1]])->get();
+            $asistencias3 = Asistencia::whereBetween('fecha', [$fechas3[0], $fechas3[1]])->get();
+
+            $cantidad_horas1 = self::getHorasTrabajadas($asistencias1);
+            $cantidad_horas2 = self::getHorasTrabajadas($asistencias2);
+            $cantidad_horas3 = self::getHorasTrabajadas($asistencias3);
+
+            $cantidad_horas = ($cantidad_horas1 + $cantidad_horas2 + $cantidad_horas3) / 3;
+            $cantidad_horas = number_format($cantidad_horas, 2, ".", "");
+        } else {
+            $cantidad_horas = self::getHorasTrabajadas($asistencias);
+        }
+
+        return response()->JSON([
+            'sw' => true,
+            'cantidad_horas' => $cantidad_horas
+        ]);
+    }
+
+    // capacitacion
     public function capacitacion_examen(Request $request)
     {
         $filtro = $request->filtro;
@@ -425,16 +514,28 @@ class MachineLearningController extends Controller
         $total_examenes = count($examens);
 
         $total_capacitacion = 0;
-        if ($filtro == 'pronostico') {
+
+        if ($filtro == 'prediccion') {
+            // entrenar el modelo
+            $this->trainModel("capacitacion");
+            // cargar los datos de prediccion
+            $input = [];
+            foreach ($empleados as $empleado) {
+                $examens_empleado = ExamenEmpleado::where("empleado_id", $empleado->id)->get();
+                $input[] = [count($examens_empleado), count($examens)];
+            }
+            // obtener el resultado del modelo
+            $total_capacitacion = $this->predict("capacitacion", $input);
+        } elseif ($filtro == 'fechasp') {
             $fechas1 = ["", ""];
             $fechas2 = ["", ""];
             $fechas3 = ["", ""];
 
-            // obtener las fechas de pronostico
-            $fechas_pronostico = self::getFechasPronostico();
-            $fechas1 = $fechas_pronostico["fechas1"];
-            $fechas2 = $fechas_pronostico["fechas2"];
-            $fechas3 = $fechas_pronostico["fechas3"];
+            // obtener las fechas de fechasp
+            $fechas_fechasp = self::getFechasPronostico();
+            $fechas1 = $fechas_fechasp["fechas1"];
+            $fechas2 = $fechas_fechasp["fechas2"];
+            $fechas3 = $fechas_fechasp["fechas3"];
 
             $total_capacitacion1 = 0;
             $total_capacitacion2 = 0;
@@ -531,7 +632,7 @@ class MachineLearningController extends Controller
         $departamento = $request->departamento;
         $designacion = $request->designacion;
         $empleado = $request->empleado;
-
+        $empleados = Empleado::all();
         $asistencias = Asistencia::select('asistencias.*')
             ->join('empleados', 'empleados.id', '=', 'asistencias.empleado_id')
             ->join('users', 'users.id', '=', 'empleados.user_id')
@@ -547,16 +648,27 @@ class MachineLearningController extends Controller
                         ->join('users', 'users.id', '=', 'empleados.user_id')
                         ->whereBetween('asistencias.fecha', [$fecha_ini, $fecha_fin])->get();
                     break;
-                case 'pronostico':
+                case 'prediccion':
+                    // entrenar el modelo
+                    $this->trainModel("asistencia");
+                    // cargar los datos de prediccion
+                    $input = [];
+                    foreach ($empleados as $empleado) {
+                        $input[] = [count($empleado->asistencias), count($asistencias)];
+                    }
+                    // obtener el resultado del modelo
+                    $total_asistencias = $this->predict("asistencia", $input);
+                    break;
+                case 'fechasp':
                     $fechas1 = ["", ""];
                     $fechas2 = ["", ""];
                     $fechas3 = ["", ""];
 
-                    // obtener las fechas de pronostico
-                    $fechas_pronostico = self::getFechasPronostico();
-                    $fechas1 = $fechas_pronostico["fechas1"];
-                    $fechas2 = $fechas_pronostico["fechas2"];
-                    $fechas3 = $fechas_pronostico["fechas3"];
+                    // obtener las fechas de fechasp
+                    $fechas_fechasp = self::getFechasPronostico();
+                    $fechas1 = $fechas_fechasp["fechas1"];
+                    $fechas2 = $fechas_fechasp["fechas2"];
+                    $fechas3 = $fechas_fechasp["fechas3"];
 
                     $asistencias1 = count(Asistencia::select('asistencias.*')
                         ->join('empleados', 'empleados.id', '=', 'asistencias.empleado_id')
@@ -614,87 +726,12 @@ class MachineLearningController extends Controller
             }
         }
 
-        if ($filtro != 'pronostico') {
+        if ($filtro != 'fechasp') {
             $total_asistencias = count($asistencias);
         }
         return response()->JSON([
             'sw' => true,
             'total_asistencias' => number_format($total_asistencias, 2)
-        ]);
-    }
-
-    public function progreso_proyectos(Request $request)
-    {
-        $filtro = $request->filtro;
-        $empresa = $request->empresa;
-        $departamento = $request->departamento;
-        $designacion = $request->designacion;
-        $proyecto = $request->proyecto;
-
-        $proyectos = Proyecto::where('estado', 1)->get();
-
-        if ($filtro != 'todos') {
-            switch ($filtro) {
-                case 'empresa':
-                    if ($empresa != 'todos') {
-                        $proyectos = Proyecto::select('proyectos.*')
-                            ->join('empleados', 'empleados.id', '=', 'proyectos.lider_proyecto')
-                            ->where('proyectos.estado', 1)
-                            ->where('empleados.empresa_id', $empresa)
-                            ->get();
-                    }
-                    break;
-                case 'departamento':
-                    if ($departamento != 'todos') {
-                        $proyectos = Proyecto::select('proyectos.*')
-                            ->join('empleados', 'empleados.id', '=', 'proyectos.lider_proyecto')
-                            ->where('proyectos.estado', 1)
-                            ->where('empleados.departamento_id', $departamento)
-                            ->get();
-                    }
-                    break;
-                case 'designacion':
-                    if ($designacion != 'todos') {
-                        $proyectos = Proyecto::select('proyectos.*')
-                            ->join('empleados', 'empleados.id', '=', 'proyectos.lider_proyecto')
-                            ->where('proyectos.estado', 1)
-                            ->where('empleados.designacion_id', $designacion)
-                            ->get();
-                    }
-                    break;
-                case 'proyecto':
-                    if ($proyecto != 'todos') {
-                        $proyectos = Proyecto::select('proyectos.*')
-                            ->where('proyectos.estado', 1)
-                            ->where('proyectos.id', $proyecto)
-                            ->get();
-                    }
-                    break;
-            }
-        }
-
-        $total_progreso = 0;
-        $cont_proyectos = 0;
-        foreach ($proyectos as $proyecto) {
-            $porcentaje = 0;
-            $tareas = Actividad::where('proyecto_id', $proyecto->id)->get();
-            if (count($tareas) > 0) {
-                $tareas_completos = Actividad::where('proyecto_id', $proyecto->id)->where('estado', 'COMPLETO')->get();
-                $porcentaje = (count($tareas_completos) * 100) / count($tareas);
-            }
-            $total_progreso += $porcentaje;
-            $cont_proyectos++;
-        }
-
-        if ($cont_proyectos > 0) {
-            $total_progreso = $total_progreso / $cont_proyectos;
-        } else {
-            $total_progreso = 0;
-        }
-
-        return response()->JSON([
-            'sw' => true,
-            'total_progreso' => number_format($total_progreso, 2)
         ]);
     }
 
@@ -769,16 +806,26 @@ class MachineLearningController extends Controller
 
         $ganancia_total = 0;
 
-        if ($filtro == 'pronostico') {
+        if ($filtro == 'prediccion') {
+            // entrenar el modelo
+            $this->trainModel("ganancia_empleados");
+            // cargar los datos de prediccion
+            $input = [];
+            foreach ($empleados as $empleado) {
+                $input[] = [$empleado->cantidad_horas_trabajadas, $empleado->tiempo_productividad];
+            }
+            // obtener el resultado del modelo
+            $ganancia_total = $this->predict("ganancia_empleados", $input);
+        } elseif ($filtro == 'fechasp') {
             $fechas1 = ["", ""];
             $fechas2 = ["", ""];
             $fechas3 = ["", ""];
 
-            // obtener las fechas de pronostico
-            $fechas_pronostico = self::getFechasPronostico();
-            $fechas1 = $fechas_pronostico["fechas1"];
-            $fechas2 = $fechas_pronostico["fechas2"];
-            $fechas3 = $fechas_pronostico["fechas3"];
+            // obtener las fechas de fechasp
+            $fechas_fechasp = self::getFechasPronostico();
+            $fechas1 = $fechas_fechasp["fechas1"];
+            $fechas2 = $fechas_fechasp["fechas2"];
+            $fechas3 = $fechas_fechasp["fechas3"];
 
             // INICIO 1
             $empleados = Empleado::select('empleados.*')
@@ -880,6 +927,7 @@ class MachineLearningController extends Controller
                     $cont++;
                 }
             }
+
             // FIN 3
             $ganancia_total  = ($ganancia_total1 + $ganancia_total2 + $ganancia_total3) / 3;
         } else {
@@ -914,6 +962,8 @@ class MachineLearningController extends Controller
         $departamento = $request->departamento;
         $designacion = $request->designacion;
         $empleado = $request->empleado;
+        $empleados = Empleado::all();
+        $activiaddes = Actividad::all();
 
         $proyectos = Proyecto::where('estado', 1)->get();
 
@@ -977,17 +1027,26 @@ class MachineLearningController extends Controller
         }
 
         $total_progreso = 0;
-
-        if ($filtro == 'pronostico') {
+        if ($filtro == 'prediccion') {
+            // entrenar el modelo
+            $this->trainModel("cantidad_progreso_actividades");
+            // cargar los datos de prediccion
+            $input = [];
+            foreach ($empleados as $empleado) {
+                $input[] = [$empleado->asistencias, count($activiaddes)];
+            }
+            // obtener el resultado del modelo
+            $total_progreso = $this->predict("cantidad_progreso_actividades", $input);
+        } elseif ($filtro == 'fechasp') {
             $fechas1 = ["", ""];
             $fechas2 = ["", ""];
             $fechas3 = ["", ""];
 
-            // obtener las fechas de pronostico
-            $fechas_pronostico = self::getFechasPronostico();
-            $fechas1 = $fechas_pronostico["fechas1"];
-            $fechas2 = $fechas_pronostico["fechas2"];
-            $fechas3 = $fechas_pronostico["fechas3"];
+            // obtener las fechas de fechasp
+            $fechas_fechasp = self::getFechasPronostico();
+            $fechas1 = $fechas_fechasp["fechas1"];
+            $fechas2 = $fechas_fechasp["fechas2"];
+            $fechas3 = $fechas_fechasp["fechas3"];
 
             // PROYECTOS 1
             $proyectos = Proyecto::select('proyectos.*')
@@ -1093,6 +1152,81 @@ class MachineLearningController extends Controller
         ]);
     }
 
+    public function progreso_proyectos(Request $request)
+    {
+        $filtro = $request->filtro;
+        $empresa = $request->empresa;
+        $departamento = $request->departamento;
+        $designacion = $request->designacion;
+        $proyecto = $request->proyecto;
+
+        $proyectos = Proyecto::where('estado', 1)->get();
+
+        if ($filtro != 'todos') {
+            switch ($filtro) {
+                case 'empresa':
+                    if ($empresa != 'todos') {
+                        $proyectos = Proyecto::select('proyectos.*')
+                            ->join('empleados', 'empleados.id', '=', 'proyectos.lider_proyecto')
+                            ->where('proyectos.estado', 1)
+                            ->where('empleados.empresa_id', $empresa)
+                            ->get();
+                    }
+                    break;
+                case 'departamento':
+                    if ($departamento != 'todos') {
+                        $proyectos = Proyecto::select('proyectos.*')
+                            ->join('empleados', 'empleados.id', '=', 'proyectos.lider_proyecto')
+                            ->where('proyectos.estado', 1)
+                            ->where('empleados.departamento_id', $departamento)
+                            ->get();
+                    }
+                    break;
+                case 'designacion':
+                    if ($designacion != 'todos') {
+                        $proyectos = Proyecto::select('proyectos.*')
+                            ->join('empleados', 'empleados.id', '=', 'proyectos.lider_proyecto')
+                            ->where('proyectos.estado', 1)
+                            ->where('empleados.designacion_id', $designacion)
+                            ->get();
+                    }
+                    break;
+                case 'proyecto':
+                    if ($proyecto != 'todos') {
+                        $proyectos = Proyecto::select('proyectos.*')
+                            ->where('proyectos.estado', 1)
+                            ->where('proyectos.id', $proyecto)
+                            ->get();
+                    }
+                    break;
+            }
+        }
+
+        $total_progreso = 0;
+        $cont_proyectos = 0;
+        foreach ($proyectos as $proyecto) {
+            $porcentaje = 0;
+            $tareas = Actividad::where('proyecto_id', $proyecto->id)->get();
+            if (count($tareas) > 0) {
+                $tareas_completos = Actividad::where('proyecto_id', $proyecto->id)->where('estado', 'COMPLETO')->get();
+                $porcentaje = (count($tareas_completos) * 100) / count($tareas);
+            }
+            $total_progreso += $porcentaje;
+            $cont_proyectos++;
+        }
+
+        if ($cont_proyectos > 0) {
+            $total_progreso = $total_progreso / $cont_proyectos;
+        } else {
+            $total_progreso = 0;
+        }
+
+        return response()->JSON([
+            'sw' => true,
+            'total_progreso' => number_format($total_progreso, 2)
+        ]);
+    }
+
     public static function getFechasPronostico()
     {
         // restar menos 90 dias y empezar a armar
@@ -1108,13 +1242,13 @@ class MachineLearningController extends Controller
         $fechas3[0] = date("Y-m-d", strtotime($fecha_inicial . "+61 days"));
         $fechas3[1] = date("Y-m-d", strtotime($fecha_inicial . "+90 days"));
 
-        $fechas_pronostico = [
+        $fechas_fechasp = [
             "fechas1" => $fechas1,
             "fechas2" => $fechas2,
             "fechas3" => $fechas3,
         ];
 
-        return $fechas_pronostico;
+        return $fechas_fechasp;
     }
 
     public static function getHorasTrabajadas($asistencias)
@@ -1158,5 +1292,9 @@ class MachineLearningController extends Controller
             }
         }
         return number_format($cantidad_horas, 2, ".", "");
+    }
+    function predict($a, $b)
+    {
+        return true;
     }
 }

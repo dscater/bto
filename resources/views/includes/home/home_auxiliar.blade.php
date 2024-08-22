@@ -44,7 +44,7 @@
                             <option value="todos">Todos</option>
                             <option value="fecha">Fecha</option>
                             <option value="estado">Estado</option>
-                            <option value="pronostico">Pronóstico</option>
+                            <option value="fechasp">Pronóstico</option>
                         </select>
                     </div>
                     <div class="col-md-12 cont_filtro">
@@ -86,7 +86,7 @@
                             <option value="departamento">Departamento</option>
                             <option value="designacion">Designación</option>
                             <option value="empleado">Empleado</option>
-                            <option value="pronostico">Pronóstico</option>
+                            <option value="fechasp">Pronóstico</option>
                         </select>
                     </div>
                     <div class="col-md-12 cont_filtro">
@@ -133,7 +133,7 @@
                             <option value="departamento">Departamento</option>
                             <option value="designacion">Designación</option>
                             <option value="empleado">Empleado</option>
-                            <option value="pronostico">Pronóstico</option>
+                            <option value="fechasp">Pronóstico</option>
                         </select>
                     </div>
                     <div class="col-md-12 cont_filtro">
@@ -180,7 +180,7 @@
                             <option value="departamento">Departamento</option>
                             <option value="designacion">Designación</option>
                             <option value="empleado">Empleado</option>
-                            <option value="pronostico">Pronóstico</option>
+                            <option value="fechasp">Pronóstico</option>
                         </select>
                     </div>
                     <div class="col-md-12 cont_filtro">
@@ -227,7 +227,7 @@
                             <option value="departamento">Departamento</option>
                             <option value="designacion">Designación</option>
                             <option value="empleado">Empleado</option>
-                            <option value="pronostico">Pronóstico</option>
+                            <option value="fechasp">Pronóstico</option>
                         </select>
                     </div>
                     <div class="col-md-12 cont_filtro">
@@ -305,7 +305,7 @@
                             <option value="fecha">Fecha</option>
                             <option value="proyecto">Proyecto</option>
                             <option value="empleado">Empleado</option>
-                            <option value="pronostico">Pronóstico</option>
+                            <option value="fechasp">Pronóstico</option>
                         </select>
                     </div>
                     <div class="col-md-12 cont_filtro">
@@ -346,7 +346,7 @@
                             <option value="departamento">Departamento</option>
                             <option value="designacion">Designación</option>
                             <option value="empleado">Empleado</option>
-                            <option value="pronostico">Pronóstico</option>
+                            <option value="fechasp">Pronóstico</option>
                         </select>
                     </div>
                     <div class="col-md-12 cont_filtro">
